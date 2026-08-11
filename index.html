@@ -186,6 +186,10 @@
   .opt.não{border-left-color:var(--warn)}
   .opt h4{margin:0 0 4px; font-size:14.5px}
   .opt p{margin:0; font-size:13.5px; color:var(--muted)}
+  .plan{display:inline-block; font-size:10.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+        background:var(--bg); border:1px solid var(--line); color:var(--muted); border-radius:5px;
+        padding:1px 6px; margin-right:7px; vertical-align:1px}
+  .planc{margin-top:4px !important; font-size:12.5px !important; font-weight:600; color:var(--ink) !important}
   table{width:100%; border-collapse:collapse; font-size:13.5px}
   th,td{text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); vertical-align:top}
   th{font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); font-weight:600}
@@ -649,6 +653,17 @@
          return `<li><q>${esc(a.slice(1,i))}</q>${esc(a.slice(i+1))}</li>`;
        }).join('')}</ul>
        <div class="vnote">${esc(BLUEZONE.where)}</div>
+     </div>
+     <div class="card" style="margin-top:10px">
+       <h4 style="margin:0 0 4px;font-size:15px">${esc(BLUEZONE.fallback.title)}</h4>
+       <p style="margin:0 0 4px;font-size:13.5px;color:var(--muted)">${esc(BLUEZONE.fallback.body)}</p>
+       ${BLUEZONE.fallback.steps.map(s=>`
+         <div class="opt ${s.verdict}">
+           <h4><span class="plan">${esc(s.n)}</span>${esc(s.t)}</h4>
+           <p>${esc(s.d)}</p>
+           <p class="planc">${esc(s.cost)}</p>
+         </div>`).join('')}
+       <div class="vnote">${esc(BLUEZONE.fallback.order)}</div>
      </div>`;
 
   document.getElementById('pelosa').innerHTML =

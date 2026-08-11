@@ -213,34 +213,6 @@ const PHOTOS = {
    "t": "photos/t/pranzo-agriturismo-1.jpg"
   }
  ],
- "santa-maria-navarrese": [
-  {
-   "f": "photos/santa-maria-navarrese-1.jpg",
-   "cap": "A torre espanhola e a praia",
-   "by": "Air fans",
-   "lic": "CC0",
-   "page": "https://commons.wikimedia.org/wiki/File:Torre_e_spiaggia_di_Santa_Maria_Navarrese_(2026)_2.jpg",
-   "t": "photos/t/santa-maria-navarrese-1.jpg"
-  },
-  {
-   "f": "photos/santa-maria-navarrese-2.jpg",
-   "cap": "Amanhecer em Santa Maria Navarrese",
-   "by": "Fabio Pani",
-   "lic": "CC BY-SA 4.0",
-   "page": "https://commons.wikimedia.org/wiki/File:Dawn_at_Santa_Maria_Navarrese_beach,_Sardinia,_Italy.jpg",
-   "t": "photos/t/santa-maria-navarrese-2.jpg"
-  }
- ],
- "villagrande": [
-  {
-   "f": "photos/villagrande-1.jpg",
-   "cap": "Villagrande Strisaili, a 700 m de altitude",
-   "by": "trolvag",
-   "lic": "CC BY-SA 3.0",
-   "page": "https://commons.wikimedia.org/wiki/File:Villagrande_Strisaili_-_panoramio_(1).jpg",
-   "t": "photos/t/villagrande-1.jpg"
-  }
- ],
  "cala-brandinchi": [
   {
    "f": "photos/cala-brandinchi-1.jpg",

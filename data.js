@@ -298,7 +298,7 @@ const DAYS = [
     badge: "Almoço reservado",
     leave: "08:30",
     summary:
-      "Dia de gente, não de paisagem. Baunei, Talana, Urzulei, Arzana e Villagrande formam o núcleo de maior concentração de centenários já registrada no mundo. O eixo do dia é o almoço num agriturismo de verdade — uma família servindo o que ela mesma produz. Em volta dele, a vida pastoril no planalto de manhã e a vila no fim da tarde.",
+      "Dia de gente, não de paisagem. Baunei, Talana, Urzulei, Arzana e Villagrande formam o núcleo de maior concentração de centenários já registrada no mundo. O eixo do dia é o almoço — de preferência num agriturismo, uma família servindo o que ela mesma produz. Em volta dele, a vida pastoril no planalto de manhã e a vila saindo à rua no fim da tarde.",
     alerts: [
       {
         level: "warn",
@@ -351,15 +351,15 @@ const DAYS = [
       },
       {
         id: "pranzo-agriturismo",
-        name: "Almoço num agriturismo",
+        name: "Almoço — agriturismo ou plano B local",
         lat: 40.0389,
         lng: 9.6644,
         time: "13:00–15:15",
         kind: "comida",
-        desc: "O centro do dia. Na Itália 'agriturismo' é categoria protegida por lei, não enfeite de nome: a casa precisa ser uma propriedade agrícola em atividade e a maior parte do que serve tem que sair dali. É a diferença entre comer comida sarda e comer na casa de quem a produz. Menu fixo, horário único, sem carta — chega, senta e vem vindo: antipasto de pecorino e embutidos da casa, pane carasau, culurgiones, porceddu no espeto, cannonau da região, mirto ou filu 'e ferru no fim.",
+        desc: "O centro do dia. Na Itália 'agriturismo' é categoria protegida por lei, não enfeite de nome: a casa precisa ser uma propriedade agrícola em atividade e a maior parte do que serve tem que sair dali. É a diferença entre comer comida sarda e comer na casa de quem a produz. Menu fixo, horário único, sem carta — chega, senta e vem vindo. Se não houver agriturismo com lugar, há três alternativas locais igualmente honestas na mesma área: veja a escada de planos na seção Blue Zone.",
         senior: "Duas horas e meia sentados à sombra, no miolo do calor. O descanso do dia está embutido aqui, não é tempo perdido.",
         kids: "Quase sempre há animais e espaço aberto — e ninguém se incomoda com criança levantando da mesa. Porção de criança se pede na hora da reserva.",
-        cost: "€35–45 por adulto, com vinho incluso na maioria",
+        cost: "€35–45 por adulto no agriturismo · €20–30 na trattoria · ~€6 por pessoa no piquenique",
         book: true,
       },
       {
@@ -375,17 +375,6 @@ const DAYS = [
         cost: "Um caffè custa ~€1,20",
       },
       {
-        id: "santa-maria-navarrese",
-        name: "Santa Maria Navarrese",
-        lat: 39.9903,
-        lng: 9.6853,
-        time: "17:20–18:45",
-        kind: "praia",
-        desc: "Dez minutos abaixo de Baunei, na costa. Praia de areia, torre espanhola do século XVI e uma oliveira selvagem de mais de mil anos ao lado da igrejinha que dá nome à vila.",
-        senior: "Praia plana, mar calmo, sombra de pinheiros e bares na areia. Fecho de dia sem esforço nenhum — e o banho depois de um dia de serra cai muito bem.",
-        kids: "Banho no fim da tarde, quando o sol já não castiga.",
-      },
-      {
         id: "su-sterru",
         name: "Su Sterru — a voragem do Golgo (opcional)",
         lat: 40.0806,
@@ -398,26 +387,14 @@ const DAYS = [
         cost: "Grátis",
         optional: true,
       },
-      {
-        id: "villagrande",
-        name: "Villagrande Strisaili (opcional)",
-        lat: 39.9553,
-        lng: 9.5136,
-        time: "desvio de +1h20 ida e volta",
-        kind: "vila",
-        desc: "O município com a maior taxa de centenários já registrada no mundo — o marco zero dos estudos de Blue Zone. Sendo honesto: é uma vila de montanha comum, sem nada montado para turista. O valor é simbólico, não visual.",
-        senior: "Não recomendo encaixar. Soma 1h20 de serra a um dia que já tem 3h de estrada, e Baunei entrega a mesma coisa — é município Blue Zone igual, com vila mais viva e sem o desvio.",
-        kids: "Nada para criança.",
-        optional: true,
-      },
     ],
     drive: [
       { from: "Hotel", to: "Genna Silana", km: 55, min: 60, note: "SS125 Orientale Sarda." },
       { from: "Genna Silana", to: "Golgo", km: 30, min: 55, note: "Inclui os 10 km de rampa de Baunei ao planalto." },
       { from: "Golgo", to: "Baunei", km: 10, min: 25, note: "Descida da rampa, no horário do almoço." },
-      { from: "Santa Maria Navarrese", to: "Hotel", km: 90, min: 95, note: "Volta pela SS125. Saia da praia até 18:45 para não pegar serra no escuro." },
+      { from: "Baunei", to: "Hotel", km: 78, min: 80, note: "Volta pela SS125. Saia até 18:00 para não pegar serra no escuro." },
     ],
-    pack: ["Blusa leve — o planalto é bem mais frio e ventoso que a costa", "Calçado fechado para o planalto", "Remédio de enjoo antes de sair de Orosei", "Dinheiro em espécie — agriturismo pequeno nem sempre passa cartão", "Roupa de banho para Santa Maria Navarrese"],
+    pack: ["Blusa leve — o planalto é bem mais frio e ventoso que a costa", "Calçado fechado para o planalto", "Remédio de enjoo antes de sair de Orosei", "Dinheiro em espécie — agriturismo e trattoria pequenos nem sempre passam cartão", "Sacola térmica, se optarem pelo piquenique de alimentari"],
   },
 
   {
@@ -662,7 +639,44 @@ const BLUEZONE = {
     ],
   },
   where:
-    "Procure por 'agriturismo' em Baunei, Talana, Urzulei, Lotzorai ou Triei — todos a menos de 30 min do planalto do Golgo, e todos dentro da faixa Blue Zone. No próprio planalto há restaurantes de cooperativa de pastores, mais simples e igualmente autênticos, porém mais visitados no verão. Reserve por telefone: muitos não têm site, e os que têm não respondem e-mail em agosto.",
+    "Procure por 'agriturismo' em Baunei, Talana, Urzulei, Lotzorai ou Triei — todos a menos de 30 min do planalto do Golgo, e todos dentro da faixa Blue Zone. Reserve por telefone: muitos não têm site, e os que têm não respondem e-mail em agosto.",
+  fallback: {
+    title: "Se não houver agriturismo com lugar",
+    body:
+      "Não é problema: a comida do dia é a mesma em qualquer um dos degraus abaixo, e os três últimos ficam no caminho que vocês já vão fazer. O que muda é quanto da produção sai da própria casa — e, em agosto, nenhuma das opções abaixo exige planejar com dias de antecedência.",
+    steps: [
+      {
+        n: "Plano A",
+        t: "Agriturismo em Baunei, Talana, Urzulei, Lotzorai ou Triei",
+        d: "A opção completa: propriedade agrícola em atividade, menu fixo, família servindo. Exige reserva por telefone com antecedência.",
+        cost: "€35–45 por adulto, vinho em geral incluso",
+        verdict: "melhor",
+      },
+      {
+        n: "Plano B",
+        t: "Restaurante de cooperativa no próprio planalto do Golgo",
+        d: "No alto há casas de pastor que servem em mesa comunitária, ao ar livre, com os animais circulando. A comida é a mesma — porceddu no espeto, carasau, pecorino — e vocês já vão estar lá de manhã. Mais visitado no verão, mas continua sendo cozinha de pastor de verdade. Vale ligar na véspera mesmo assim.",
+        cost: "€30–40 por adulto",
+        verdict: "melhor",
+      },
+      {
+        n: "Plano C",
+        t: "Trattoria na vila de Baunei",
+        d: "A vila tem alguns lugares simples que servem o almoço da região para quem mora ali. Sem cerimônia e sem reserva. Peça o que a casa está fazendo no dia em vez de escolher pelo cardápio: «Cosa avete oggi?»",
+        cost: "€20–30 por adulto",
+        verdict: "possível",
+      },
+      {
+        n: "Plano D",
+        t: "Piquenique de alimentari, no planalto",
+        d: "Compre em Baunei antes de subir: pane carasau, um pedaço de pecorino, salsiccia sarda, tomate, fruta e água. Coma no planalto, à sombra dos zimbros. É literalmente a comida que o pastor levava — e com duas crianças de 7 e 8 anos costuma render mais que restaurante. Alimentari e panificio fecham entre 13h e 17h: compre até as 12h30.",
+        cost: "~€6 por pessoa",
+        verdict: "possível",
+      },
+    ],
+    order:
+      "Em qualquer um dos quatro, peça: culurgiones (o ravióli de batata, hortelã e pecorino, marca da Ogliastra), porceddu se houver, pecorino da casa, cannonau da região e seadas de sobremesa — o pastel frito de queijo com mel.",
+  },
 };
 
 const BOOKINGS = [

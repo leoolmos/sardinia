@@ -124,18 +124,6 @@ const INFO = {
     facts: [["Noites", "5, de 15 a 20/08"], ["Destino mais distante", "Cala Brandinchi, ~55 min"], ["Até a praia", "poucos minutos a pé"], ["Pedir", "quartos térreos ou perto do elevador"]],
   },
 
-  "santa-maria-navarrese": {
-    what: "Vila costeira aos pés de Baunei. O nome vem da igrejinha que, segundo a tradição, foi fundada em 1052 por uma princesa de Navarra sobrevivente de um naufrágio. Ao lado dela há uma oliveira selvagem que se estima ter mais de mil anos, e na praia uma torre de vigia espanhola do século XVI.",
-    why: "Praia de areia, mar calmo, sombra de pinheiros e bares na areia. É o fecho perfeito de um dia inteiro de serra: banho no fim da tarde, quando o sol já não castiga. O monólito de Pedra Longa, com 128 m saindo do mar, fica poucos quilômetros ao norte.",
-    facts: [["Igreja", "fundada em 1052, pela tradição"], ["Oliveira", "estimada em 1.000+ anos"], ["Torre espanhola", "século XVI"], ["Praia", "plana, mar calmo"]],
-  },
-
-  villagrande: {
-    what: "Vila de montanha a 700 m de altitude, na Ogliastra. Os estudos que criaram o conceito de Blue Zone identificaram nesta faixa da Sardenha a maior concentração de centenários já registrada, e Villagrande Strisaili é o município com o índice mais alto de todos.",
-    why: "O dado que chamou a atenção dos pesquisadores não foi só a quantidade: aqui homens e mulheres chegam aos 100 anos em proporção quase igual, enquanto no resto do mundo há cerca de cinco centenárias para cada centenário. Dito isso, é uma vila real, sem nada montado para turista — o valor é simbólico, não visual.",
-    facts: [["Altitude", "~700 m"], ["Marco", "maior taxa de centenários registrada"], ["Proporção homem:mulher", "próxima de 1:1"], ["Desvio", "+1h20 ida e volta"]],
-  },
-
   "cala-brandinchi": {
     what: "Praia de areia branca finíssima em San Teodoro, apelidada de Pequeno Taiti pela água transparente que fica rasa por dezenas de metros. A ilha de Tavolara, um bloco calcário de 565 m, domina o horizonte. Atrás da faixa de areia há um pinheiral e a lagoa de Salina Bamba, onde aparecem flamingos.",
     why: "É a praia mais adequada de toda a viagem para crianças e idosos ao mesmo tempo: entrada na água plana e gradual, sombra de pinheiro logo atrás, estacionamento a poucos minutos a pé, quiosque e banheiro. Substituiu La Pelosa no roteiro e entrega o mesmo tipo de cenário a 55 min do hotel em vez de 3h20.",
