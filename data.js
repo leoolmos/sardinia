@@ -302,11 +302,7 @@ const DAYS = [
     alerts: [
       {
         level: "warn",
-        text: "Os 10 km de Baunei até o planalto do Golgo são rampa forte com curvas fechadas contínuas e trechos estreitos de mão dupla. Asfaltado e viável em carro normal, mas exige ritmo lento. Quem enjoa vai no banco da frente e toma remédio 30 min antes de sair de Orosei.",
-      },
-      {
-        level: "warn",
-        text: "Abasteça os dois carros em Orosei antes de sair. Entre Dorgali e Baunei, na SS125, praticamente não há posto — e os que existem fecham no meio do dia.",
+        text: "Os 10 km de Baunei até o planalto do Golgo são rampa forte com curvas fechadas contínuas e trechos estreitos de mão dupla. Asfaltado e viável em carro normal, mas exige ritmo lento — quem enjoa vai no banco da frente e toma remédio antes de sair de Orosei. Abasteça os dois carros em Orosei: entre Dorgali e Baunei praticamente não há posto, e os que existem fecham no meio do dia.",
       },
       {
         level: "info",
@@ -314,7 +310,11 @@ const DAYS = [
       },
       {
         level: "warn",
-        text: "O almoço é o dia inteiro, não um intervalo dele. Agriturismo de verdade trabalha com horário único, menu fixo e só por reserva — e em agosto os bons fecham a agenda com dias de antecedência. Reserve para 8 pessoas, avise que há 2 crianças, e confirme o horário: a maioria serve às 13h em ponto.",
+        text: "Ovile Bertarelli: reserve pelo WhatsApp o quanto antes — 8 pessoas, 2 crianças, 2 idosos de 76 anos, almoço de terça 18/08. Na mesma conversa combine o transfer que eles fazem de Baunei (~€5/pessoa): são 4 km de estrada de terra até lá, e o transfer poupa os 76 anos do chacoalho e evita problema com o contrato de aluguel dos carros, que costuma proibir via não pavimentada.",
+      },
+      {
+        level: "warn",
+        text: "O Ovile só aceita DINHEIRO. Para 8 pessoas dá algo em torno de €280–360. Saque em Orosei antes de sair: no planalto não há caixa eletrônico e o de Baunei pode estar sem dinheiro em pleno agosto.",
       },
       {
         level: "info",
@@ -343,7 +343,7 @@ const DAYS = [
         name: "Altopiano del Golgo",
         lat: 40.0842,
         lng: 9.6519,
-        time: "10:45–12:30",
+        time: "10:45–12:15",
         kind: "natureza",
         desc: "Planalto a 700 m sobre Baunei, num antigo campo de lava. Igreja campestre de San Pietro, do século XVII, com as cumbessias em volta — casinhas de pedra onde as famílias ainda se alojam durante a novena, uma vez por ano. Burros, porcos, cabras e cavalos circulam soltos por todo lado, sem cerca.",
         senior: "Está de manhã de propósito: a subida é mais fresca, os animais estão ativos e a luz é melhor. Depois da rampa, o planalto em si é plano e fácil. Sombra de zimbros centenários.",
@@ -351,15 +351,16 @@ const DAYS = [
       },
       {
         id: "pranzo-agriturismo",
-        name: "Almoço — agriturismo ou plano B local",
-        lat: 40.0389,
-        lng: 9.6644,
-        time: "13:00–15:15",
+        name: "Almoço no Agriturismo Ovile Bertarelli",
+        q: "Agriturismo Ovile Bertarelli, Baunei",
+        lat: 40.0892,
+        lng: 9.6392,
+        time: "13:00–15:30",
         kind: "comida",
-        desc: "O centro do dia. Na Itália 'agriturismo' é categoria protegida por lei, não enfeite de nome: a casa precisa ser uma propriedade agrícola em atividade e a maior parte do que serve tem que sair dali. É a diferença entre comer comida sarda e comer na casa de quem a produz. Menu fixo, horário único, sem carta — chega, senta e vem vindo. Se não houver agriturismo com lugar, há três alternativas locais igualmente honestas na mesma área: veja a escada de planos na seção Blue Zone.",
-        senior: "Duas horas e meia sentados à sombra, no miolo do calor. O descanso do dia está embutido aqui, não é tempo perdido.",
-        kids: "Quase sempre há animais e espaço aberto — e ninguém se incomoda com criança levantando da mesa. Porção de criança se pede na hora da reserva.",
-        cost: "€35–45 por adulto no agriturismo · €20–30 na trattoria · ~€6 por pessoa no piquenique",
+        desc: "O centro do dia. Fica no próprio planalto do Golgo, no Supramonte de Baunei, e se come dentro de uma pinnetta restaurada — a cabana cônica de pedra e junco onde o pastor sardo dormia na montanha. Menu fixo, sem carta: antipasti da casa, culurgiones, malloreddus, porceddu no espeto e seadas de sobremesa, tudo de produção local.",
+        senior: "Duas horas e meia sentados à sombra, no miolo do calor — o descanso do dia está embutido aqui. O acesso é o ponto a resolver: são 4 km de estrada de terra. Eles operam um transfer saindo de Baunei por ~€5 por pessoa, e para este grupo é a opção certa, mesmo que os carros aguentem.",
+        kids: "Comer dentro de uma cabana de pastor de verdade, com animais em volta. Vale o dia inteiro para 7 e 8 anos.",
+        cost: "Menu fixo · SÓ DINHEIRO, nem cartão nem Pix — leve o valor dos 8 em espécie",
         book: true,
       },
       {
@@ -367,7 +368,7 @@ const DAYS = [
         name: "Baunei — a vila no fim da tarde",
         lat: 40.0389,
         lng: 9.6644,
-        time: "15:45–17:00",
+        time: "16:00–17:15",
         kind: "vila",
         desc: "Vila de pastores agarrada à encosta, a 480 m, com ruas em rampa e casas de pedra. Não tem atração: tem a vida acontecendo. No fim da tarde as portas abrem, as cadeiras saem para a calçada e a praça em frente à igreja de San Nicola enche de gente conversando — inclusive muita gente muito velha, que é exatamente o ponto.",
         senior: "É aqui que a estatística vira coisa vista. Sente no bar da praça, peça um caffè, e repare em quantas pessoas de 80 e 90 anos estão na rua, sozinhas, resolvendo a própria vida. Ruas em rampa: escolha o trecho plano em volta da praça.",
@@ -391,10 +392,10 @@ const DAYS = [
     drive: [
       { from: "Hotel", to: "Genna Silana", km: 55, min: 60, note: "SS125 Orientale Sarda." },
       { from: "Genna Silana", to: "Golgo", km: 30, min: 55, note: "Inclui os 10 km de rampa de Baunei ao planalto." },
-      { from: "Golgo", to: "Baunei", km: 10, min: 25, note: "Descida da rampa, no horário do almoço." },
-      { from: "Baunei", to: "Hotel", km: 78, min: 80, note: "Volta pela SS125. Saia até 18:00 para não pegar serra no escuro." },
+      { from: "Golgo", to: "Baunei", km: 10, min: 25, note: "Descida da rampa para pegar o transfer do Ovile." },
+      { from: "Baunei", to: "Hotel", km: 78, min: 80, note: "Volta pela SS125. Saia até 17:30 para não pegar serra no escuro." },
     ],
-    pack: ["Blusa leve — o planalto é bem mais frio e ventoso que a costa", "Calçado fechado para o planalto", "Remédio de enjoo antes de sair de Orosei", "Dinheiro em espécie — agriturismo e trattoria pequenos nem sempre passam cartão", "Sacola térmica, se optarem pelo piquenique de alimentari"],
+    pack: ["DINHEIRO para o almoço — €280–360 para os 8, sacado em Orosei", "Blusa leve — o planalto é bem mais frio e ventoso que a costa", "Calçado fechado para o planalto", "Remédio de enjoo antes de sair de Orosei", "Água — no planalto não há onde comprar"],
   },
 
   {
@@ -647,16 +648,16 @@ const BLUEZONE = {
     steps: [
       {
         n: "Plano A",
-        t: "Agriturismo em Baunei, Talana, Urzulei, Lotzorai ou Triei",
-        d: "A opção completa: propriedade agrícola em atividade, menu fixo, família servindo. Exige reserva por telefone com antecedência.",
-        cost: "€35–45 por adulto, vinho em geral incluso",
+        t: "Agriturismo Ovile Bertarelli, no planalto do Golgo",
+        d: "É o escolhido. Come-se dentro de uma pinnetta restaurada, a cabana cônica de pedra e junco do pastor sardo, no meio do Supramonte de Baunei. Menu fixo de produção própria: antipasti, culurgiones, malloreddus, porceddu no espeto e seadas. Reserva pelo WhatsApp, com antecedência. Só dinheiro. Acesso por 4 km de estrada de terra ou pelo transfer que eles fazem de Baunei, ~€5 por pessoa — usem o transfer.",
+        cost: "Menu fixo · só dinheiro · transfer ~€5 por pessoa",
         verdict: "melhor",
       },
       {
         n: "Plano B",
-        t: "Restaurante de cooperativa no próprio planalto do Golgo",
-        d: "No alto há casas de pastor que servem em mesa comunitária, ao ar livre, com os animais circulando. A comida é a mesma — porceddu no espeto, carasau, pecorino — e vocês já vão estar lá de manhã. Mais visitado no verão, mas continua sendo cozinha de pastor de verdade. Vale ligar na véspera mesmo assim.",
-        cost: "€30–40 por adulto",
+        t: "Outro agriturismo em Baunei, Talana, Urzulei, Lotzorai ou Triei",
+        d: "Se o Ovile não tiver lugar: mesma faixa Blue Zone, mesmo formato de menu fixo e família servindo, todos a menos de 30 min do planalto. No próprio Golgo também há casas de pastor servindo em mesa comunitária ao ar livre.",
+        cost: "€30–45 por adulto, vinho em geral incluso",
         verdict: "melhor",
       },
       {
@@ -682,7 +683,7 @@ const BLUEZONE = {
 const BOOKINGS = [
   { what: "Cala Brandinchi (19/08)", when: "AGORA", why: "Cota diária + taxa de acesso. Meados de agosto esgota dias antes. Plano B sem cota: Lu Impostu, ao lado.", urgent: true },
   { what: "Barco motonave — Golfo di Orosei (17/08)", when: "com 3–4 dias", why: "Motonave, não gommone. Confirme WC a bordo, sombra e se os tickets da Grotta del Bue Marino e de Cala Mariolu estão incluídos.", urgent: true },
-  { what: "Agriturismo para o almoço da Blue Zone (18/08)", when: "AGORA", why: "É o eixo do dia, não um intervalo. Horário único, menu fixo, mesa para 8 com 2 crianças. Em agosto os bons fecham a agenda com dias de antecedência e muitos só atendem por telefone.", urgent: true },
+  { what: "Agriturismo Ovile Bertarelli — almoço de 18/08", when: "AGORA", why: "É o eixo do dia, não um intervalo. Reserva pelo WhatsApp: 8 pessoas, 2 crianças, 2 idosos. Combine também o transfer de Baunei (~€5/pessoa) para não encarar os 4 km de terra. SÓ ACEITAM DINHEIRO — saque em Orosei antes de subir.", urgent: true },
   { what: "Bidderosa (16/08, opcional)", when: "assim que possível", why: "~130 carros/dia. Se falhar, Cala Liberotto resolve.", urgent: false },
   { what: "Jantares em Orosei/Cala Gonone", when: "na véspera", why: "Mesa para 8 em agosto sem reserva não existe.", urgent: false },
   { what: "Late check-out no Marina Garden (20/08)", when: "no check-in", why: "8 pessoas precisam de espaço para trocar de roupa antes da estrada.", urgent: false },

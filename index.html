@@ -395,7 +395,12 @@
   });
 
   function esc(s){return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
-  function gmap(s){return `https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lng}`}
+  /* s.q busca pelo nome: mais confiável que coordenada quando o ponto exato é estimado */
+  function gmap(s){
+    return s.q
+      ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.q)}`
+      : `https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lng}`;
+  }
   /* o dia 15 parte de Cagliari, não de Orosei — cada dia pode declarar sua própria origem */
   function originOf(d){ return d.origin || BASE }
   function gdir(s,d){ const o=originOf(d);

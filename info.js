@@ -107,9 +107,16 @@ const INFO = {
   },
 
   "pranzo-agriturismo": {
-    what: "Na Itália, agriturismo é categoria regulada por lei: para usar o nome, a casa precisa ser uma propriedade agrícola em atividade e a maior parte do que serve tem que sair dali. É a diferença entre comer comida sarda e comer na casa de quem a produz. Funciona com menu fixo e horário único — você não escolhe nada, e vai chegando.",
-    why: "A sequência costuma ser antipasto de pecorino e embutidos da casa com pane carasau, depois culurgiones, depois porceddu no espeto, cannonau da região e mirto ou filu 'e ferru no fim. Cada um desses itens aparece nos estudos sobre longevidade sarda — mas o que mais importa aqui não é a química da comida, é que são duas horas e meia à mesa, com a família da casa por perto. A Blue Zone é tanto isso quanto a dieta.",
-    facts: [["Formato", "menu fixo, sem carta"], ["Horário", "quase sempre 13h em ponto"], ["Custo", "€35–45 por adulto, vinho em geral incluso"], ["Reserva", "obrigatória, por telefone"], ["Pagamento", "muitos só em dinheiro"], ["Duração", "~2h30"]],
+    what: "Agriturismo no planalto do Golgo, no Supramonte de Baunei. Come-se dentro de uma pinnetta restaurada — a cabana cônica de pedra e junco onde o pastor sardo passava a temporada na montanha, longe da vila. Na Itália, agriturismo é categoria regulada: a casa precisa ser propriedade agrícola em atividade e a maior parte do que serve tem que sair dali.",
+    why: "Menu fixo, sem carta: antipasti da casa com pane carasau, culurgiones (o ravióli de batata, hortelã e pecorino da Ogliastra), malloreddus, porceddu no espeto e seadas no fim. O que mais importa aqui não é a química da comida — é que são duas horas e meia à mesa, dentro da construção em que essa comida foi inventada, com a família da casa servindo. A Blue Zone é tanto isso quanto a dieta.",
+    facts: [
+      ["Onde", "planalto do Golgo, Baunei"],
+      ["Formato", "menu fixo, sem carta"],
+      ["Reserva", "WhatsApp, com antecedência"],
+      ["Pagamento", "SÓ DINHEIRO"],
+      ["Acesso", "4 km de terra, ou transfer de Baunei ~€5/pessoa"],
+      ["Duração", "~2h30"],
+    ],
   },
 
   "baunei-vila": {
