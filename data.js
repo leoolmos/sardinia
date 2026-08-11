@@ -1,6 +1,6 @@
 /* Dados do roteiro Sardenha 15–20/08 — 4 adultos, 2 crianças (7 e 8), 2 idosos (76) */
 
-const BASE = { lat: 40.3846, lng: 9.7426, name: "Hotel Marina Garden — Marina di Orosei" };
+const BASE = { id: "hotel-base", lat: 40.3846, lng: 9.7426, name: "Hotel Marina Garden — Marina di Orosei" };
 
 const DAYS = [
   {
@@ -10,7 +10,8 @@ const DAYS = [
     title: "Cagliari → Orosei",
     color: "#e2725b",
     badge: "Ferragosto",
-    origin: { lat: 39.2146, lng: 9.1122, name: "Vela Rooms — Via Roma 83, Cagliari" },
+    origin: { id: "vela-rooms", lat: 39.2146, lng: 9.1122, name: "Vela Rooms — Via Roma 83, Cagliari" },
+    leave: "08:15",
     summary:
       "Acordam no Vela Rooms, na Via Roma. Flamingos no Molentargius logo cedo, Castello no fim da manhã a pé, almoço no Marina e transfer de ~2h30 até Orosei. Chegando na véspera, a manhã rende de verdade.",
     alerts: [
@@ -40,17 +41,6 @@ const DAYS = [
       },
     ],
     stops: [
-      {
-        id: "vela-rooms",
-        name: "Check-out do Vela Rooms",
-        lat: 39.2146,
-        lng: 9.1122,
-        time: "08:00–08:15",
-        kind: "base",
-        desc: "Via Roma 83, de frente para o porto, na borda do bairro Marina. Ponto de partida do dia.",
-        senior: "Bagagem nos carros antes de sair. Com 8 pessoas, uma segunda ida ao quarto custa 40 min.",
-        kids: "Café da manhã antes de encarar o parque — não há nada para comer no Molentargius.",
-      },
       {
         id: "molentargius",
         name: "Parco Naturale Molentargius-Saline",
@@ -150,6 +140,7 @@ const DAYS = [
     weekday: "Domingo",
     title: "Aclimatação · Orosei e praias locais",
     color: "#3fa796",
+    leave: "09:00",
     summary:
       "Dia leve de propósito. Todo mundo chegou ontem, a semana tem 1 dia de barco e 2 de estrada. Praias a 10–20 min do hotel.",
     alerts: [
@@ -211,6 +202,7 @@ const DAYS = [
     title: "Dia de barco · Golfo di Orosei",
     color: "#2b7fd4",
     badge: "Reservar já",
+    leave: "07:15",
     summary:
       "O dia principal. Grotta del Bue Marino + Cala Luna + Cala Mariolu de barco saindo de Cala Gonone. Único jeito prático de ver as três.",
     alerts: [
@@ -301,11 +293,12 @@ const DAYS = [
     id: "d3",
     date: "18/08",
     weekday: "Terça",
-    title: "Blue Zone · Baunei, Golgo e Ogliastra",
+    title: "Blue Zone · como se vive em Baunei",
     color: "#7a5cbf",
-    badge: "Rota B",
+    badge: "Almoço reservado",
+    leave: "08:30",
     summary:
-      "A Blue Zone literal. Baunei, Talana, Urzulei, Arzana e Villagrande Strisaili formam o núcleo de maior concentração de centenários já registrada no mundo. Dia longo de serra, fechado com banho no mar.",
+      "Dia de gente, não de paisagem. Baunei, Talana, Urzulei, Arzana e Villagrande formam o núcleo de maior concentração de centenários já registrada no mundo. O eixo do dia é o almoço num agriturismo de verdade — uma família servindo o que ela mesma produz. Em volta dele, a vida pastoril no planalto de manhã e a vila no fim da tarde.",
     alerts: [
       {
         level: "warn",
@@ -320,8 +313,16 @@ const DAYS = [
         text: "Com 2 carros, saiam juntos e combinem os pontos de encontro antes: no Genna Silana e no restaurante do Golgo o sinal de celular cai. Quem cansar pode descer antes sem travar o grupo.",
       },
       {
+        level: "warn",
+        text: "O almoço é o dia inteiro, não um intervalo dele. Agriturismo de verdade trabalha com horário único, menu fixo e só por reserva — e em agosto os bons fecham a agenda com dias de antecedência. Reserve para 8 pessoas, avise que há 2 crianças, e confirme o horário: a maioria serve às 13h em ponto.",
+      },
+      {
         level: "info",
         text: "No planalto do Golgo faz ~8 °C a menos que na costa e venta. Leve uma blusa para os dois de 76 anos, mesmo com 35 °C em Orosei.",
+      },
+      {
+        level: "info",
+        text: "Ninguém no interior fala inglês por padrão. Duas frases resolvem o dia: «Siamo in otto, abbiamo prenotato» (somos oito, temos reserva) e «Cosa producete voi?» (o que vocês mesmos produzem?). Essa segunda costuma abrir uma conversa de vinte minutos.",
       },
     ],
     stops: [
@@ -330,7 +331,7 @@ const DAYS = [
         name: "Passo Genna 'e Silana",
         lat: 40.1611,
         lng: 9.5236,
-        time: "10:00 · parada de 20 min",
+        time: "09:40 · parada de 20 min",
         kind: "natureza",
         desc: "Mirante a 1.017 m na SS125, com vista de cima para o cânion de Gorropu, o mais profundo da Europa. Fica na beira da estrada, no meio do caminho para Baunei.",
         senior: "Estaciona e a vista está ali — 20 m de terreno plano. Melhor relação vista/esforço do dia inteiro. Tem bar com banheiro.",
@@ -342,47 +343,60 @@ const DAYS = [
         name: "Altopiano del Golgo",
         lat: 40.0842,
         lng: 9.6519,
-        time: "11:15–13:00",
+        time: "10:45–12:30",
         kind: "natureza",
-        desc: "Planalto a 700 m sobre Baunei, num antigo campo de lava. Igreja campestre de San Pietro, do século XVII, com as cumbessias (casinhas de romeiro) em volta. Burros, porcos, cabras e cavalos circulam soltos por todo lado.",
-        senior: "Depois da subida, o planalto em si é plano e fácil. Sombra de zimbros centenários. Vale sentar e deixar o resto do grupo andar.",
+        desc: "Planalto a 700 m sobre Baunei, num antigo campo de lava. Igreja campestre de San Pietro, do século XVII, com as cumbessias em volta — casinhas de pedra onde as famílias ainda se alojam durante a novena, uma vez por ano. Burros, porcos, cabras e cavalos circulam soltos por todo lado, sem cerca.",
+        senior: "Está de manhã de propósito: a subida é mais fresca, os animais estão ativos e a luz é melhor. Depois da rampa, o planalto em si é plano e fácil. Sombra de zimbros centenários.",
         kids: "Animais soltos e mansos por toda parte. É o ponto alto do dia para as duas crianças.",
       },
       {
-        id: "su-sterru",
-        name: "Su Sterru — a voragem do Golgo",
-        lat: 40.0806,
-        lng: 9.6531,
-        time: "12:00",
-        kind: "natureza",
-        desc: "Abismo cárstico de 270 m de profundidade — um dos mais fundos da Europa — aberto no meio do planalto. Mirante cercado na borda.",
-        senior: "Do estacionamento são ~300 m de trilha em terreno de pedra irregular. Calçado fechado. Se estiver quente, é uma parada dispensável.",
-        kids: "Segurar a mão das duas na borda. A grade existe, mas a queda é vertical.",
-        cost: "Grátis",
+        id: "pranzo-agriturismo",
+        name: "Almoço num agriturismo",
+        lat: 40.0389,
+        lng: 9.6644,
+        time: "13:00–15:15",
+        kind: "comida",
+        desc: "O centro do dia. Na Itália 'agriturismo' é categoria protegida por lei, não enfeite de nome: a casa precisa ser uma propriedade agrícola em atividade e a maior parte do que serve tem que sair dali. É a diferença entre comer comida sarda e comer na casa de quem a produz. Menu fixo, horário único, sem carta — chega, senta e vem vindo: antipasto de pecorino e embutidos da casa, pane carasau, culurgiones, porceddu no espeto, cannonau da região, mirto ou filu 'e ferru no fim.",
+        senior: "Duas horas e meia sentados à sombra, no miolo do calor. O descanso do dia está embutido aqui, não é tempo perdido.",
+        kids: "Quase sempre há animais e espaço aberto — e ninguém se incomoda com criança levantando da mesa. Porção de criança se pede na hora da reserva.",
+        cost: "€35–45 por adulto, com vinho incluso na maioria",
+        book: true,
       },
       {
-        id: "pranzo-golgo",
-        name: "Almoço pastoril no Golgo",
-        lat: 40.0836,
-        lng: 9.6486,
-        time: "13:00–14:45",
-        kind: "comida",
-        desc: "É aqui que a Blue Zone deixa de ser estatística e vira almoço. Menu fixo de pastor: pane carasau, pecorino, porceddu no espeto, culurgiones, cannonau, mirto no fim. No planalto há restaurantes de cooperativa local — o mais conhecido é o Il Golgo.",
-        senior: "Refeição longa, sentada e sombreada bem no miolo do calor. O descanso do dia está embutido aqui.",
-        kids: "Mesas ao ar livre com os animais circulando em volta.",
-        cost: "€30–40 menu fixo por adulto",
-        book: true,
+        id: "baunei-vila",
+        name: "Baunei — a vila no fim da tarde",
+        lat: 40.0389,
+        lng: 9.6644,
+        time: "15:45–17:00",
+        kind: "vila",
+        desc: "Vila de pastores agarrada à encosta, a 480 m, com ruas em rampa e casas de pedra. Não tem atração: tem a vida acontecendo. No fim da tarde as portas abrem, as cadeiras saem para a calçada e a praça em frente à igreja de San Nicola enche de gente conversando — inclusive muita gente muito velha, que é exatamente o ponto.",
+        senior: "É aqui que a estatística vira coisa vista. Sente no bar da praça, peça um caffè, e repare em quantas pessoas de 80 e 90 anos estão na rua, sozinhas, resolvendo a própria vida. Ruas em rampa: escolha o trecho plano em volta da praça.",
+        kids: "Sorvete no bar e espaço para correr na praça.",
+        cost: "Um caffè custa ~€1,20",
       },
       {
         id: "santa-maria-navarrese",
         name: "Santa Maria Navarrese",
         lat: 39.9903,
         lng: 9.6853,
-        time: "15:45–18:00",
+        time: "17:20–18:45",
         kind: "praia",
-        desc: "Descida de volta a Baunei e mais 10 min até a costa. Vila com praia de areia, torre espanhola do século XVI e uma oliveira milenar de mais de 1.000 anos ao lado da igreja.",
-        senior: "Praia plana, mar calmo, sombra de pinheiros e bares na areia. Fecho de dia sem esforço nenhum.",
+        desc: "Dez minutos abaixo de Baunei, na costa. Praia de areia, torre espanhola do século XVI e uma oliveira selvagem de mais de mil anos ao lado da igrejinha que dá nome à vila.",
+        senior: "Praia plana, mar calmo, sombra de pinheiros e bares na areia. Fecho de dia sem esforço nenhum — e o banho depois de um dia de serra cai muito bem.",
         kids: "Banho no fim da tarde, quando o sol já não castiga.",
+      },
+      {
+        id: "su-sterru",
+        name: "Su Sterru — a voragem do Golgo (opcional)",
+        lat: 40.0806,
+        lng: 9.6531,
+        time: "encaixa no bloco do planalto",
+        kind: "natureza",
+        desc: "Abismo cárstico de 270 m de profundidade — um dos poços verticais mais fundos da Europa — aberto no meio do planalto, com mirante cercado na borda.",
+        senior: "Do estacionamento são ~300 m em terreno de pedra irregular. É a parte mais desconfortável do dia e a primeira a cortar se o calor apertar ou se o grupo estiver lento.",
+        kids: "Segurar a mão das duas na borda. A grade existe, mas a queda é vertical.",
+        cost: "Grátis",
+        optional: true,
       },
       {
         id: "villagrande",
@@ -392,17 +406,18 @@ const DAYS = [
         time: "desvio de +1h20 ida e volta",
         kind: "vila",
         desc: "O município com a maior taxa de centenários já registrada no mundo — o marco zero dos estudos de Blue Zone. Sendo honesto: é uma vila de montanha comum, sem nada montado para turista. O valor é simbólico, não visual.",
-        senior: "Não recomendo encaixar. Soma 1h20 de serra a um dia que já tem 3h de estrada, e Baunei já é Blue Zone com todos os efeitos.",
+        senior: "Não recomendo encaixar. Soma 1h20 de serra a um dia que já tem 3h de estrada, e Baunei entrega a mesma coisa — é município Blue Zone igual, com vila mais viva e sem o desvio.",
         kids: "Nada para criança.",
         optional: true,
       },
     ],
     drive: [
-      { from: "Hotel", to: "Genna Silana", km: 55, min: 60, note: "SS125 Orientale Sarda. Saia 09:00." },
+      { from: "Hotel", to: "Genna Silana", km: 55, min: 60, note: "SS125 Orientale Sarda." },
       { from: "Genna Silana", to: "Golgo", km: 30, min: 55, note: "Inclui os 10 km de rampa de Baunei ao planalto." },
-      { from: "Santa Maria Navarrese", to: "Hotel", km: 90, min: 95, note: "Volta pela SS125. Saia da praia até 18:00 para não pegar serra no escuro." },
+      { from: "Golgo", to: "Baunei", km: 10, min: 25, note: "Descida da rampa, no horário do almoço." },
+      { from: "Santa Maria Navarrese", to: "Hotel", km: 90, min: 95, note: "Volta pela SS125. Saia da praia até 18:45 para não pegar serra no escuro." },
     ],
-    pack: ["Blusa leve — o planalto é bem mais frio e ventoso que a costa", "Calçado fechado para a trilha do Su Sterru", "Remédio de enjoo antes de sair de Orosei", "Água e lanche — entre Dorgali e Baunei não há onde parar", "Roupa de banho para Santa Maria Navarrese"],
+    pack: ["Blusa leve — o planalto é bem mais frio e ventoso que a costa", "Calçado fechado para o planalto", "Remédio de enjoo antes de sair de Orosei", "Dinheiro em espécie — agriturismo pequeno nem sempre passa cartão", "Roupa de banho para Santa Maria Navarrese"],
   },
 
   {
@@ -412,6 +427,7 @@ const DAYS = [
     title: "Cala Brandinchi + Lu Impostu",
     color: "#e0a419",
     badge: "Reserva obrigatória",
+    leave: "08:15",
     summary:
       "A substituta de La Pelosa. Norte, 55 min de carro. Água rasa e turquesa até longe da margem — apelidada de 'Pequeno Taiti', com a ilha de Tavolara no horizonte. É a praia mais adequada do roteiro para crianças e idosos ao mesmo tempo.",
     alerts: [
@@ -603,10 +619,56 @@ const BOATS = {
     "Plano de contingência com 2 carros: existe serviço de taxi boat frequente entre Cala Gonone e Cala Luna, com travessia de ~20 min. Se no dia os dois de 76 anos não estiverem bem para 7h de mar, eles fazem só Bue Marino + Cala Luna e voltam de taxi boat no início da tarde, enquanto o resto do grupo segue até Cala Mariolu. Com dois carros isso não trava ninguém.",
 };
 
+const BLUEZONE = {
+  intro:
+    "Blue Zone não é marca de turismo: saiu de um trabalho de campo dos demógrafos Gianni Pes e Michel Poulain, que marcaram em azul, num mapa, os municípios da Ogliastra e da Barbagia com taxa anômala de centenários. É a primeira região do mundo a receber o rótulo — as outras (Okinawa, Icária, Nicoya, Loma Linda) vieram depois. Não há museu nem centro de visitantes. O que se pode ver é como as pessoas vivem, e isso se vê à mesa e na praça.",
+  findings: [
+    {
+      t: "O dado que chamou atenção não foi a quantidade",
+      d: "Foi a proporção entre os sexos. No mundo inteiro há cerca de cinco mulheres centenárias para cada homem centenário. Nesta faixa da Sardenha a razão chega perto de 1 para 1 — algo que não se repete em nenhuma outra população estudada. Foi essa anomalia, e não o número absoluto, que fez os pesquisadores voltarem.",
+    },
+    {
+      t: "A explicação mais aceita é o trabalho, não a comida",
+      d: "O pastoreio de montanha significava caminhar dez ou mais quilômetros por dia, em terreno inclinado, todos os dias, a vida inteira, sem nunca virar exercício — era só o trabalho. Atividade física moderada e contínua, distribuída ao longo de décadas, aparece em todas as hipóteses como o fator mais forte, e explica por que aqui o efeito alcança os homens.",
+    },
+    {
+      t: "A dieta é modesta, não exótica",
+      d: "Pane carasau, pecorino de ovelha criada em pasto, minestrone com fava e grão-de-bico, leite de cabra, pouca carne fora dos dias de festa, e cannonau — a uva grenache, que aqui rende um tinto muito tânico. Nada de superalimento: é comida barata de gente que não tinha alternativa.",
+    },
+    {
+      t: "E o velho não sai de cena",
+      d: "O componente social é o mais difícil de exportar e talvez o mais importante. O idoso continua morando com a família, mantendo função e autoridade, e continua na rua. Por isso a praça de Baunei às seis da tarde diz mais sobre a Blue Zone do que qualquer placa explicativa.",
+    },
+  ],
+  agri: {
+    title: "Como reconhecer um agriturismo de verdade",
+    body:
+      "Na Itália, agriturismo é categoria regulada: a casa tem que ser uma propriedade agrícola em atividade e a maior parte do que serve precisa vir dali. Restaurante que só usa o nome existe, mas se entrega rápido.",
+    signs: [
+      ["Bom sinal", "Menu fixo, sem carta. Você não escolhe — vem vindo."],
+      ["Bom sinal", "Horário único, quase sempre 13h, e só com reserva."],
+      ["Bom sinal", "Tem animais, horta e o queijo é da casa."],
+      ["Bom sinal", "A família serve. Alguém senta e conversa com você."],
+      ["Mau sinal", "Cardápio plastificado em quatro idiomas."],
+      ["Mau sinal", "Aceita gente a qualquer hora, sem reserva."],
+      ["Mau sinal", "Fica na estrada principal, com estacionamento de ônibus."],
+    ],
+    ask: [
+      "«Siamo in otto, con due bambini. Avete posto per pranzo martedì 18?» — somos oito com duas crianças, tem lugar para o almoço de terça 18?",
+      "«Cosa producete voi?» — o que vocês mesmos produzem? É a pergunta que separa agriturismo de restaurante.",
+      "«Che ora si mangia?» — a que horas se come. Costuma ser 13h em ponto, e atrasar não é bem visto.",
+      "«Quanto viene, tutto compreso?» — quanto fica, tudo incluído. Menu fixo em geral já inclui vinho, água e o digestivo.",
+      "«Si paga in contanti?» — se paga em dinheiro. Muitos não passam cartão.",
+    ],
+  },
+  where:
+    "Procure por 'agriturismo' em Baunei, Talana, Urzulei, Lotzorai ou Triei — todos a menos de 30 min do planalto do Golgo, e todos dentro da faixa Blue Zone. No próprio planalto há restaurantes de cooperativa de pastores, mais simples e igualmente autênticos, porém mais visitados no verão. Reserve por telefone: muitos não têm site, e os que têm não respondem e-mail em agosto.",
+};
+
 const BOOKINGS = [
   { what: "Cala Brandinchi (19/08)", when: "AGORA", why: "Cota diária + taxa de acesso. Meados de agosto esgota dias antes. Plano B sem cota: Lu Impostu, ao lado.", urgent: true },
   { what: "Barco motonave — Golfo di Orosei (17/08)", when: "com 3–4 dias", why: "Motonave, não gommone. Confirme WC a bordo, sombra e se os tickets da Grotta del Bue Marino e de Cala Mariolu estão incluídos.", urgent: true },
-  { what: "Almoço no planalto do Golgo (18/08)", when: "2–3 dias antes", why: "Restaurante de cooperativa com menu fixo, mesa para 8 no alto da montanha. Sem reserva não há mesa.", urgent: true },
+  { what: "Agriturismo para o almoço da Blue Zone (18/08)", when: "AGORA", why: "É o eixo do dia, não um intervalo. Horário único, menu fixo, mesa para 8 com 2 crianças. Em agosto os bons fecham a agenda com dias de antecedência e muitos só atendem por telefone.", urgent: true },
   { what: "Bidderosa (16/08, opcional)", when: "assim que possível", why: "~130 carros/dia. Se falhar, Cala Liberotto resolve.", urgent: false },
   { what: "Jantares em Orosei/Cala Gonone", when: "na véspera", why: "Mesa para 8 em agosto sem reserva não existe.", urgent: false },
   { what: "Late check-out no Marina Garden (20/08)", when: "no check-in", why: "8 pessoas precisam de espaço para trocar de roupa antes da estrada.", urgent: false },

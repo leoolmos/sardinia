@@ -106,10 +106,22 @@ const INFO = {
     facts: [["Profundidade", "~270 m"], ["Boca", "~40 × 20 m"], ["Caminhada", "~300 m em pedra irregular"], ["Custo", "gratuito"]],
   },
 
-  "pranzo-golgo": {
-    what: "Almoço de pastor no planalto, servido por cooperativas locais em menu fixo. A mesa típica traz pane carasau — o pão folha assado duas vezes, que dura meses e nasceu justamente para o pastor levar na transumância —, pecorino sardo, culurgiones (o ravióli de batata, hortelã e pecorino que é a marca da Ogliastra), porceddu no espeto e cannonau.",
-    why: "É aqui que a Blue Zone deixa de ser estatística e vira almoço. O cannonau, feito da uva grenache, é o vinho que aparece em todo estudo sobre longevidade sarda. E a refeição, longa e sentada à sombra, embute o descanso do dia.",
-    facts: [["Formato", "menu fixo"], ["Custo", "€30–40 por adulto"], ["Reserva", "obrigatória para 8 pessoas"], ["Duração", "~1h45"]],
+  "pranzo-agriturismo": {
+    what: "Na Itália, agriturismo é categoria regulada por lei: para usar o nome, a casa precisa ser uma propriedade agrícola em atividade e a maior parte do que serve tem que sair dali. É a diferença entre comer comida sarda e comer na casa de quem a produz. Funciona com menu fixo e horário único — você não escolhe nada, e vai chegando.",
+    why: "A sequência costuma ser antipasto de pecorino e embutidos da casa com pane carasau, depois culurgiones, depois porceddu no espeto, cannonau da região e mirto ou filu 'e ferru no fim. Cada um desses itens aparece nos estudos sobre longevidade sarda — mas o que mais importa aqui não é a química da comida, é que são duas horas e meia à mesa, com a família da casa por perto. A Blue Zone é tanto isso quanto a dieta.",
+    facts: [["Formato", "menu fixo, sem carta"], ["Horário", "quase sempre 13h em ponto"], ["Custo", "€35–45 por adulto, vinho em geral incluso"], ["Reserva", "obrigatória, por telefone"], ["Pagamento", "muitos só em dinheiro"], ["Duração", "~2h30"]],
+  },
+
+  "baunei-vila": {
+    what: "Vila de pastores a 480 m de altitude, agarrada à encosta acima da SS125, com cerca de 3.400 habitantes. É um dos municípios do núcleo Blue Zone, junto com Talana, Urzulei, Arzana e Villagrande Strisaili.",
+    why: "Não há atração para visitar, e é justamente esse o ponto. No fim da tarde as portas abrem, as cadeiras saem para a calçada e a praça em frente à igreja de San Nicola enche — inclusive de gente muito velha, na rua, sozinha, resolvendo a própria vida. O componente social é a parte da Blue Zone que nenhum estudo consegue exportar: o idoso não sai de cena, continua morando com a família e mantendo função. Um caffè no bar da praça às seis da tarde mostra isso melhor que qualquer placa.",
+    facts: [["Altitude", "480 m"], ["Habitantes", "~3.400"], ["Melhor horário", "17h–19h, quando a vila sai à rua"], ["Terreno", "ruas em rampa; a praça é plana"], ["Um caffè", "~€1,20"]],
+  },
+
+  "hotel-base": {
+    what: "Hotel Marina Garden, em Marina di Orosei — base fixa dos cinco dias, na faixa de areia.",
+    why: "Ficar cinco noites no mesmo lugar foi decisão deliberada: com dois idosos de 76 anos e duas crianças, cada troca de hotel custa meio dia e cansa mais que qualquer passeio. Daqui, nenhum destino do roteiro passa de 1h25 de carro.",
+    facts: [["Noites", "5, de 15 a 20/08"], ["Destino mais distante", "Cala Brandinchi, ~55 min"], ["Até a praia", "poucos minutos a pé"], ["Pedir", "quartos térreos ou perto do elevador"]],
   },
 
   "santa-maria-navarrese": {

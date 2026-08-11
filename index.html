@@ -128,6 +128,12 @@
   .stop:hover{border-color:var(--dc,var(--accent))}
   .stop.active{border-color:var(--dc,var(--accent)); box-shadow:inset 0 0 0 1px var(--dc,var(--accent)),var(--shadow)}
   .stop.optional{border-style:dashed}
+  /* cartão de partida: é a base, não uma parada — fundo neutro e sem numeração */
+  .stop.start{background:transparent; border-style:dashed; box-shadow:none}
+  .stop.start .num{background:var(--muted); font-size:13px}
+  .stop.start h3{font-size:14.5px; font-weight:600; color:var(--muted)}
+  .stop.start .leg{margin:2px 0 0; font-size:14px; color:var(--ink)}
+  .stop.start .leg b{color:var(--dc,var(--accent))}
   .shead{display:flex; align-items:flex-start; gap:10px}
   .num{
     flex:0 0 auto; width:23px; height:23px; border-radius:7px; display:grid; place-items:center;
@@ -214,6 +220,10 @@
   .boat li.y::marker{content:"+  "; color:var(--ok); font-weight:700}
   .boat li.n::marker{content:"−  "; color:var(--warn); font-weight:700}
   .boat .vnote{font-size:12.5px; border-top:1px solid var(--line); padding-top:8px; margin-top:8px; color:var(--ink)}
+  .signs{margin:0; padding-left:16px; font-size:13.5px}
+  .signs li{margin:4px 0; color:var(--muted)}
+  .signs li.y::marker{content:"✓  "; color:var(--ok); font-weight:700}
+  .signs li.n::marker{content:"✕  "; color:var(--warn); font-weight:700}
   .ask{margin-top:12px}
   .ask li{margin:6px 0; font-size:13.5px; color:var(--muted)}
   .ask li q{color:var(--ink); font-weight:600; font-style:italic}
@@ -308,6 +318,9 @@
   <h2 id="boats-h">Que barco pegar — 17/08</h2>
   <div id="boats"></div>
 
+  <h2 id="bz-h">Blue Zone — o que dá para ver de verdade</h2>
+  <div id="bz"></div>
+
   <h2 id="pelosa-h">La Pelosa <span class="done">resolvido</span></h2>
   <div class="card" id="pelosa"></div>
 
@@ -349,6 +362,7 @@
 
   let layer = L.layerGroup().addTo(map);
   const markers = {};
+  let baseMarker = null;
 
   function pin(color, label){
     return L.divIcon({
@@ -409,6 +423,25 @@
       ).join('') + `</div>`;
     }
 
+    /* partida: o dia sempre abre na base, com a distância até o 1º ponto */
+    const O0 = originOf(d), leg = (d.drive||[])[0], first = d.stops[0];
+    if(leg && first){
+      h += `<article class="stop start" data-start="${O0.id||''}">
+        <div class="shead">
+          <span class="num">⌂</span>
+          <h3>${esc(O0.name)}</h3>
+          ${d.leave?`<span class="when">saída ${esc(d.leave)}</span>`:''}
+        </div>
+        <div class="sbody">
+          <p class="leg"><b>→ ${esc(first.name)}</b> · ${leg.km} km · ~${leg.min} min de carro</p>
+          <div class="links">
+            ${hasDetail(O0.id)?`<a href="#" data-startmore="${O0.id}">Detalhes</a>`:''}
+            <a href="https://www.google.com/maps/dir/?api=1&origin=${O0.lat},${O0.lng}&destination=${first.lat},${first.lng}" target="_blank" rel="noopener">Abrir rota</a>
+          </div>
+        </div>
+      </article>`;
+    }
+
     d.stops.forEach((s,i)=>{
       h += `<article class="stop${s.optional?' optional':''}" data-stop="${s.id}">
         <div class="shead">
@@ -440,10 +473,13 @@
     panel.innerHTML = h;
     panel.querySelectorAll('.stop').forEach(el=>{
       el.onclick = e=>{
+        const sm = e.target.closest('[data-startmore]');
+        if(sm){ e.preventDefault(); openOrigin(sm.dataset.startmore, d); return; }
         const more = e.target.closest('[data-more]');
         if(more){ e.preventDefault(); openSheet(more.dataset.more, d); return; }
         if(e.target.closest('.thumbs')){ openSheet(el.dataset.stop, d); return; }
         if(e.target.tagName==='A') return;
+        if(el.classList.contains('start')){ focusPoint(originOf(d)); return; }
         focus(el.dataset.stop);
       };
     });
@@ -471,8 +507,8 @@
 
     // base do dia sempre visível — Vela Rooms no 15/08, Marina Garden no resto
     const O = originOf(d);
-    const hb = L.circleMarker([O.lat,O.lng],{radius:6,color:'#fff',weight:2,fillColor:'#1c2733',fillOpacity:1}).addTo(layer);
-    hb.bindPopup(`<b>${esc(O.name)}</b>${d.origin?'Ponto de partida do dia':'Base dos 5 dias'}`);
+    baseMarker = L.circleMarker([O.lat,O.lng],{radius:7,color:'#fff',weight:2,fillColor:'#1c2733',fillOpacity:1}).addTo(layer);
+    baseMarker.bindPopup(`<b>${esc(O.name)}</b>${d.origin?'Ponto de partida do dia':'Base dos 5 dias'}`);
 
     const routePts = d.stops.filter(s=>!s.route || s.route==='A').map(s=>[s.lat,s.lng]);
     if(routePts.length>1){
@@ -491,6 +527,16 @@
     panel.querySelectorAll('.stop').forEach(x=>x.classList.toggle('active', x.dataset.stop===id));
     map.setView(m.getLatLng(), 12, {animate:true});
     m.openPopup();
+  }
+  function focusPoint(o){
+    panel.querySelectorAll('.stop').forEach(x=>x.classList.toggle('active', x.classList.contains('start')));
+    map.setView([o.lat,o.lng], 12, {animate:true});
+    if(baseMarker) baseMarker.openPopup();
+  }
+  /* a base não é uma parada de d.stops — monta um objeto equivalente para o modal */
+  function openOrigin(id, d){
+    const o = originOf(d);
+    openSheet(id, { ...d, stops: [{ id, name:o.name, lat:o.lat, lng:o.lng, time:d.leave?'saída '+d.leave:'' }] });
   }
 
   /* ---------- detalhes e fotos ---------- */
@@ -585,6 +631,24 @@
          return `<li><q>${esc(a.slice(1,i))}</q>${esc(a.slice(i+1))}</li>`;
        }).join('')}</ul>
        <div class="vnote">${esc(BOATS.fallback)}</div>
+     </div>`;
+
+  document.getElementById('bz').innerHTML =
+    `<div class="card"><p class="intro">${esc(BLUEZONE.intro)}</p></div>
+     <div class="grid3" style="margin-top:10px">${BLUEZONE.findings.map(f=>`
+       <div class="card"><h4 style="margin:0 0 5px;font-size:14.5px">${esc(f.t)}</h4>
+       <p style="margin:0;font-size:13.5px;color:var(--muted)">${esc(f.d)}</p></div>`).join('')}</div>
+     <div class="card" style="margin-top:10px">
+       <h4 style="margin:0 0 4px;font-size:15px">${esc(BLUEZONE.agri.title)}</h4>
+       <p style="margin:0 0 10px;font-size:13.5px;color:var(--muted)">${esc(BLUEZONE.agri.body)}</p>
+       <ul class="signs">${BLUEZONE.agri.signs.map(s=>
+         `<li class="${s[0]==='Bom sinal'?'y':'n'}">${esc(s[1])}</li>`).join('')}</ul>
+       <h4 style="margin:14px 0 4px;font-size:14px">O que perguntar ao ligar</h4>
+       <ul class="ask">${BLUEZONE.agri.ask.map(a=>{
+         const i=a.indexOf('»');
+         return `<li><q>${esc(a.slice(1,i))}</q>${esc(a.slice(i+1))}</li>`;
+       }).join('')}</ul>
+       <div class="vnote">${esc(BLUEZONE.where)}</div>
      </div>`;
 
   document.getElementById('pelosa').innerHTML =

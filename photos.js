@@ -203,14 +203,14 @@ const PHOTOS = {
    "t": "photos/t/su-sterru-1.jpg"
   }
  ],
- "pranzo-golgo": [
+ "pranzo-agriturismo": [
   {
-   "f": "photos/pranzo-golgo-1.jpg",
+   "f": "photos/pranzo-agriturismo-1.jpg",
    "cap": "Pane carasau, a base da mesa sarda",
    "by": "Luigi Chiesa",
    "lic": "CC BY 3.0",
    "page": "https://commons.wikimedia.org/wiki/File:Pane_carasau.jpg",
-   "t": "photos/t/pranzo-golgo-1.jpg"
+   "t": "photos/t/pranzo-agriturismo-1.jpg"
   }
  ],
  "santa-maria-navarrese": [
