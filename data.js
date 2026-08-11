@@ -7,11 +7,12 @@ const DAYS = [
     id: "d0",
     date: "15/08",
     weekday: "Sábado",
-    title: "Chegada · Cagliari → Orosei",
+    title: "Cagliari → Orosei",
     color: "#e2725b",
     badge: "Ferragosto",
+    origin: { lat: 39.2146, lng: 9.1122, name: "Vela Rooms — Via Roma 83, Cagliari" },
     summary:
-      "Flamingos no Molentargius logo cedo, Castello no fim da manhã, almoço e transfer de ~2h30 até Orosei. Dia de deslocamento — duas paradas é o teto real.",
+      "Acordam no Vela Rooms, na Via Roma. Flamingos no Molentargius logo cedo, Castello no fim da manhã a pé, almoço no Marina e transfer de ~2h30 até Orosei. Chegando na véspera, a manhã rende de verdade.",
     alerts: [
       {
         level: "warn",
@@ -27,7 +28,11 @@ const DAYS = [
       },
       {
         level: "info",
-        text: "Se o voo chegar depois das 10h, corte o Castello e mantenha o Molentargius. Flamingo às 11h ainda se vê; o Bastione continua lá numa próxima viagem.",
+        text: "O Vela Rooms fica na Via Roma 83, dentro do Marina. Isso resolve meio dia: o Bastione Saint Remy está a ~400 m a pé e os restaurantes do almoço ficam literalmente na porta. Só o Molentargius exige carro.",
+      },
+      {
+        level: "info",
+        text: "Faça o check-out cedo e deixe a bagagem nos dois carros antes de sair para o parque, ou peça ao hotel para guardar. Voltar ao quarto depois do meio-dia só queima tempo.",
       },
       {
         level: "info",
@@ -35,6 +40,17 @@ const DAYS = [
       },
     ],
     stops: [
+      {
+        id: "vela-rooms",
+        name: "Check-out do Vela Rooms",
+        lat: 39.2146,
+        lng: 9.1122,
+        time: "08:00–08:15",
+        kind: "base",
+        desc: "Via Roma 83, de frente para o porto, na borda do bairro Marina. Ponto de partida do dia.",
+        senior: "Bagagem nos carros antes de sair. Com 8 pessoas, uma segunda ida ao quarto custa 40 min.",
+        kids: "Café da manhã antes de encarar o parque — não há nada para comer no Molentargius.",
+      },
       {
         id: "molentargius",
         name: "Parco Naturale Molentargius-Saline",
@@ -54,10 +70,10 @@ const DAYS = [
         lng: 9.1145,
         time: "10:30–12:00",
         kind: "cidade",
-        desc: "Bairro histórico no alto. Vista da muralha, catedral, ruelas. Terraço do Bastione é a foto da cidade.",
-        senior: "Subida íngreme a pé. Use o elevador público do Bastione (Piazza Costituzione) ou os ascensori de Via Santa Croce. De carro dá pra chegar quase no topo pela Viale Buon Cammino.",
+        desc: "Bairro histórico no alto. Vista da muralha, catedral, ruelas. Terraço do Bastione é a foto da cidade. A pé do Vela Rooms: ~400 m até a Piazza Costituzione, no plano.",
+        senior: "Do hotel até a base do Bastione é plano. A subida em si se resolve no elevador público da Piazza Costituzione — não encare a escadaria monumental. Lá em cima também há os ascensori de Via Santa Croce para circular pelo Castello.",
         kids: "Curto. 1h30 é o teto antes do tédio.",
-        cost: "Grátis (elevadores grátis)",
+        cost: "Grátis, elevadores incluídos",
       },
       {
         id: "cagliari-elefante",
@@ -78,8 +94,8 @@ const DAYS = [
         lng: 9.1156,
         time: "12:30–14:00",
         kind: "comida",
-        desc: "Bairro Marina tem a maior densidade de trattorias. Peça fregola con arselle, culurgiones, malloreddus.",
-        senior: "Escolha lugar com mesa interna com ar-condicionado — meio-dia de agosto em Cagliari passa de 35 °C.",
+        desc: "O Marina começa na porta do Vela Rooms e tem a maior densidade de trattorias da cidade. Peça fregola con arselle, culurgiones, malloreddus.",
+        senior: "Zero deslocamento depois do Castello. Escolha lugar com mesa interna e ar-condicionado — meio-dia de agosto em Cagliari passa de 35 °C.",
         kids: "Pizza em qualquer lugar do Marina.",
         cost: "€25–35/pessoa",
         book: true,
@@ -89,11 +105,11 @@ const DAYS = [
         name: "Su Nuraxi de Barumini (parada opcional)",
         lat: 39.7053,
         lng: 8.9906,
-        time: "descartar",
+        time: "14:30–16:00, se trocarem pelo Castello",
         kind: "cultura",
-        desc: "Nuraghe UNESCO, o mais importante da ilha. Visita guiada obrigatória, ~1h, e fica ~50 min fora da rota direta.",
-        senior: "Com Molentargius entrando no dia, isto deixou de caber. Seriam 3 paradas mais 50 min de desvio mais 2h30 de estrada, tudo no dia da chegada, no auge do calor e em terreno irregular sem sombra. Fica registrado como a parada a cortar — e a primeira a recuperar se alguém quiser trocar pelo Castello.",
-        kids: "Castelo de pedra de verdade. Se um dia sobrar um dia livre, vale.",
+        desc: "Nuraghe UNESCO, o mais importante da ilha. Visita guiada obrigatória, ~1h. Fica ~15 km fora da SS131, a caminho do norte — o desvio custa ~50 min no total.",
+        senior: "Chegando no dia 14, o tempo passou a existir: dá para almoçar, sair às 13:30, visitar das 14:30 às 16:00 e ainda chegar em Orosei por volta das 18:30. O impedimento agora não é relógio, é sol — o sítio é pedra aberta sem sombra, e 14:30 em agosto é o pior horário do dia. Só encaixe trocando pelo Castello, nunca somando aos dois.",
+        kids: "Castelo de pedra de verdade, e disparado a melhor parada 'cultural' da viagem para 7 e 8 anos.",
         cost: "€15 adulto",
         optional: true,
       },
@@ -121,11 +137,11 @@ const DAYS = [
       },
     ],
     drive: [
-      { from: "Aeroporto de Elmas", to: "Molentargius", km: 14, min: 20 },
-      { from: "Molentargius", to: "Castello", km: 6, min: 15 },
-      { from: "Cagliari", to: "Orosei", km: 195, min: 150, note: "SS131 DCN. Saia até 14:30 para chegar com luz." },
+      { from: "Vela Rooms", to: "Molentargius", km: 7, min: 15 },
+      { from: "Molentargius", to: "Vela Rooms", km: 7, min: 15, note: "Castello e almoço se fazem a pé a partir daqui." },
+      { from: "Cagliari", to: "Orosei", km: 195, min: 150, note: "SS131 DCN. Saindo às 14:30, chegada ~17:00." },
     ],
-    pack: ["Chapéu e protetor solar — Molentargius não tem sombra nenhuma", "Água por pessoa desde a saída do aeroporto", "Binóculo, se tiver: muda completamente o parque para as crianças", "Calçado fechado e confortável"],
+    pack: ["Chapéu e protetor solar — Molentargius não tem sombra nenhuma", "Água por pessoa desde a saída do hotel", "Binóculo, se tiver: muda completamente o parque para as crianças", "Calçado fechado e confortável"],
   },
 
   {
@@ -602,7 +618,7 @@ const GROUP_NOTES = [
     icon: "76",
     title: "Os dois de 76 anos",
     items: [
-      "Só dois dias passam de 1h de carro por sentido: a chegada (15/08) e a Blue Zone (18/08). O resto é curto.",
+      "Só dois dias passam de 1h de carro por sentido: o traslado Cagliari–Orosei (15/08) e a Blue Zone (18/08). O resto é curto.",
       "Os dois dias pesados são 17/08 (7h de barco) e 18/08 (3h de serra). Estão separados por perfil de esforço — mar e estrada — e cada um vem depois de uma noite inteira de descanso.",
       "Motonave e não gommone em 17/08 é o item mais importante do roteiro inteiro. Barco com WC e sombra.",
       "Calor de agosto na Sardenha bate 35 °C entre 12h e 16h. Todo bloco desse horário está na sombra, na água ou almoçando.",

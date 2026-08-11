@@ -230,7 +230,7 @@
 
 <header>
   <h1>Sardenha · 15–20 de agosto de 2026</h1>
-  <p class="sub">Cagliari → Orosei · base no Hotel Marina Garden · de carro</p>
+  <p class="sub">Chegada 14/08 à noite · noite no Vela Rooms, Cagliari · base no Hotel Marina Garden, Orosei · 2 carros</p>
   <div class="party">
     <span class="chip">4 adultos</span>
     <span class="chip">2 crianças · 7 e 8 anos</span>
@@ -314,7 +314,13 @@
 
   function esc(s){return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
   function gmap(s){return `https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lng}`}
-  function gdir(s){return `https://www.google.com/maps/dir/?api=1&origin=${BASE.lat},${BASE.lng}&destination=${s.lat},${s.lng}`}
+  /* o dia 15 parte de Cagliari, não de Orosei — cada dia pode declarar sua própria origem */
+  function originOf(d){ return d.origin || BASE }
+  function gdir(s,d){ const o=originOf(d);
+    return `https://www.google.com/maps/dir/?api=1&origin=${o.lat},${o.lng}&destination=${s.lat},${s.lng}`; }
+  /* rota de A para A não serve para nada — some o link na parada que é a própria base */
+  function isOrigin(s,d){ const o=originOf(d);
+    return Math.abs(s.lat-o.lat)<1e-4 && Math.abs(s.lng-o.lng)<1e-4; }
 
   function select(id){
     current = id;
@@ -355,7 +361,7 @@
           ${(!s.cost&&s.book)?`<div class="note cs"><b>reservar</b><span>Mesa/vaga para 8 pessoas em agosto exige reserva.</span></div>`:''}
           <div class="links">
             <a href="${gmap(s)}" target="_blank" rel="noopener">Ver no mapa</a>
-            <a href="${gdir(s)}" target="_blank" rel="noopener">Rota do hotel</a>
+            ${isOrigin(s,d)?'':`<a href="${gdir(s,d)}" target="_blank" rel="noopener">Rota do hotel</a>`}
           </div>
         </div>
       </article>`;
@@ -394,9 +400,10 @@
       pts.push([s.lat,s.lng]);
     });
 
-    // base do hotel sempre visível
-    const hb = L.circleMarker([BASE.lat,BASE.lng],{radius:6,color:'#fff',weight:2,fillColor:'#1c2733',fillOpacity:1}).addTo(layer);
-    hb.bindPopup(`<b>${esc(BASE.name)}</b>Base dos 5 dias`);
+    // base do dia sempre visível — Vela Rooms no 15/08, Marina Garden no resto
+    const O = originOf(d);
+    const hb = L.circleMarker([O.lat,O.lng],{radius:6,color:'#fff',weight:2,fillColor:'#1c2733',fillOpacity:1}).addTo(layer);
+    hb.bindPopup(`<b>${esc(O.name)}</b>${d.origin?'Ponto de partida do dia':'Base dos 5 dias'}`);
 
     const routePts = d.stops.filter(s=>!s.route || s.route==='A').map(s=>[s.lat,s.lng]);
     if(routePts.length>1){
@@ -405,7 +412,7 @@
     const rb = d.stops.filter(s=>s.route==='B').map(s=>[s.lat,s.lng]);
     if(rb.length>1) L.polyline(rb,{color:d.color,weight:2.5,opacity:.35,dashArray:'2 7'}).addTo(layer);
 
-    lastBounds = pts.length ? L.latLngBounds(pts.concat([[BASE.lat,BASE.lng]])).pad(0.25) : null;
+    lastBounds = pts.length ? L.latLngBounds(pts.concat([[O.lat,O.lng]])).pad(0.25) : null;
     if(lastBounds) map.fitBounds(lastBounds,{animate:true});
   }
   let lastBounds = null;
