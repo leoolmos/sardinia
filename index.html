@@ -37,6 +37,15 @@
     font-size:12px; padding:3px 9px; border-radius:99px;
     background:var(--bg); border:1px solid var(--line); color:var(--muted); white-space:nowrap;
   }
+  /* No mobile o header rola embora: 161px fixos comiam 20% da tela. Só a nav fica. */
+  @media (max-width:940px){
+    header{position:static; padding:14px 14px 12px; box-shadow:none}
+    h1{font-size:18px}
+    .sub{font-size:12.5px}
+    .party{gap:5px; margin-top:8px; flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none}
+    .party::-webkit-scrollbar{display:none}
+    .chip{font-size:11.5px; padding:3px 8px}
+  }
 
   nav{
     display:flex; gap:6px; overflow-x:auto; padding:10px 14px;
@@ -44,12 +53,14 @@
     position:sticky; top:var(--navtop,0); z-index:890; -webkit-overflow-scrolling:touch;
     scrollbar-width:none;
   }
+  @media (max-width:940px){ nav{top:0; padding:8px 12px} }
   nav::-webkit-scrollbar{display:none}
   nav button{
     flex:0 0 auto; border:1px solid var(--line); background:var(--bg); color:var(--ink);
     border-radius:10px; padding:7px 12px; font:inherit; font-size:13px; cursor:pointer;
     display:flex; flex-direction:column; align-items:flex-start; gap:1px; line-height:1.25;
-    transition:border-color .15s, background .15s;
+    transition:border-color .15s, background .15s; min-height:44px; justify-content:center;
+    -webkit-tap-highlight-color:transparent;
   }
   nav button b{font-size:13px; font-weight:600}
   nav button span{font-size:11px; color:var(--muted)}
@@ -57,16 +68,42 @@
   nav button[aria-selected="true"] span{color:var(--dc,var(--accent))}
 
   main{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.05fr); gap:0; align-items:start}
-  @media (max-width:940px){ main{grid-template-columns:1fr} }
 
   #panel{padding:16px 16px 60px; min-width:0}
-  #mapwrap{position:sticky; top:0; height:100vh; border-left:1px solid var(--line)}
+  #mapwrap{position:sticky; top:0; height:100vh; height:100dvh; border-left:1px solid var(--line)}
+  #map{width:100%; height:100%; background:var(--bg)}
+
+  /* botão de tela cheia do mapa — só existe no mobile */
+  #mapfs{
+    display:none; position:absolute; right:10px; bottom:10px; z-index:500;
+    border:1px solid var(--line); background:var(--panel); color:var(--ink);
+    border-radius:9px; padding:9px 13px; font:inherit; font-size:13px; font-weight:600;
+    box-shadow:var(--shadow); cursor:pointer; min-height:40px;
+  }
+
   @media (max-width:940px){
-    #mapwrap{position:relative; height:58vh; min-height:340px; border-left:0; border-bottom:1px solid var(--line); order:-1; width:100%}
     /* align-items:start do grid colapsaria a largura do mapa no eixo cruzado do flex */
     main{display:flex; flex-direction:column; align-items:stretch}
+    #mapwrap{
+      position:relative; height:38vh; height:38dvh; min-height:230px; max-height:420px;
+      border-left:0; border-bottom:1px solid var(--line); order:-1; width:100%;
+    }
+    #mapfs{display:block}
+    /* celular deitado: o min-height de 230px deixava 67px de conteúdo visível */
+    @media (max-height:520px){
+      #mapwrap{height:44dvh; min-height:0}
+      header{padding:10px 14px 8px}
+      h1{font-size:16px}
+      .party{display:none}
+    }
+    #mapwrap.fs{
+      position:fixed; inset:0; height:100dvh; max-height:none; z-index:2000;
+      border:0; margin:0;
+    }
+    /* sobe acima da atribuição do Leaflet e da barra de gestos do iPhone */
+    #mapwrap.fs #mapfs{bottom:calc(28px + env(safe-area-inset-bottom,0px))}
+    body.mapfs{overflow:hidden}
   }
-  #map{width:100%; height:100%; background:var(--bg)}
 
   .daytitle{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin:2px 0 6px}
   .daytitle h2{margin:0; font-size:19px; letter-spacing:-.02em}
@@ -111,6 +148,22 @@
   .links a:hover{border-color:var(--accent)}
   .rtag{font-size:10.5px; font-weight:700; letter-spacing:.06em; padding:1px 6px; border-radius:5px; background:var(--info-bg); color:var(--info); align-self:center}
 
+  @media (max-width:560px){
+    #panel{padding:14px 12px 48px}
+    section.extra{padding:0 12px 36px}
+    .card{padding:12px 13px}
+    /* o horário com white-space:nowrap disputava linha com o título; passa a ocupar a sua */
+    .shead{flex-wrap:wrap}
+    .shead h3{flex:1 1 100%; order:2; margin-top:2px}
+    .num{order:1}
+    .when{order:1; margin-left:auto; margin-top:3px}
+    .rtag{order:1}
+    .sbody{padding-left:0}
+    /* alvo de toque de 40px — o padding sozinho deixava os links em ~34px */
+    .links a{padding:0 12px; min-height:40px; display:inline-flex; align-items:center}
+    .drive div{width:100%}
+  }
+
   .pack{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:13px 14px; margin-top:14px}
   .pack h4{margin:0 0 8px; font-size:13px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted)}
   .pack ul{margin:0; padding-left:18px; font-size:13.5px; color:var(--muted)}
@@ -119,7 +172,8 @@
   section.extra{padding:0 16px 40px; max-width:1400px}
   section.extra h2{font-size:18px; letter-spacing:-.02em; margin:26px 0 10px; padding-top:20px; border-top:1px solid var(--line)}
   .card{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:14px 16px; box-shadow:var(--shadow)}
-  .grid3{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:10px}
+  /* min(280px,100%) e não 280px: abaixo de 312px de container a faixa estouraria a tela */
+  .grid3{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr)); gap:10px}
   .opt{border-left:3px solid var(--line); padding:2px 0 2px 12px; margin:12px 0}
   .opt.melhor{border-left-color:var(--ok)}
   .opt.possível{border-left-color:var(--info)}
@@ -130,11 +184,24 @@
   th,td{text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); vertical-align:top}
   th{font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); font-weight:600}
   tr.urgent td:nth-child(2){color:var(--warn); font-weight:600}
+  /* 3 colunas em 375px davam 75px na coluna do meio. Vira cartão empilhado. */
+  @media (max-width:700px){
+    #bookings thead{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
+    #bookings,#bookings tbody,#bookings tr,#bookings td{display:block; width:auto}
+    #bookings tr{border-bottom:1px solid var(--line); padding:10px 0}
+    #bookings tr:last-child{border-bottom:0; padding-bottom:0}
+    #bookings td{border:0; padding:0 0 3px}
+    #bookings td:first-child{font-weight:600; font-size:14.5px}
+    #bookings td[data-l]:not(:first-child)::before{
+      content:attr(data-l) " · "; font-size:11px; font-weight:700; text-transform:uppercase;
+      letter-spacing:.05em; color:var(--muted);
+    }
+  }
   .gn h4{margin:0 0 8px; font-size:14.5px; display:flex; align-items:center; gap:8px}
   .gn h4 em{font-style:normal; font-size:11px; font-weight:700; background:var(--bg); border:1px solid var(--line); color:var(--muted); border-radius:6px; padding:2px 7px}
 
   .done{font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; vertical-align:middle; padding:2px 8px; border-radius:6px; background:color-mix(in srgb,var(--ok) 15%,transparent); color:var(--ok); margin-left:6px}
-  .boatgrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:10px; margin-top:10px}
+  .boatgrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(290px,100%),1fr)); gap:10px; margin-top:10px}
   .boat{border-top:3px solid var(--line)}
   .boat.melhor{border-top-color:var(--ok)}
   .boat.possível{border-top-color:var(--info)}
@@ -162,7 +229,7 @@
 <body>
 
 <header>
-  <h1>Sardenha · 15–20 de agosto</h1>
+  <h1>Sardenha · 15–20 de agosto de 2026</h1>
   <p class="sub">Cagliari → Orosei · base no Hotel Marina Garden · de carro</p>
   <div class="party">
     <span class="chip">4 adultos</span>
@@ -176,7 +243,10 @@
 
 <main>
   <div id="panel"></div>
-  <div id="mapwrap"><div id="map"></div></div>
+  <div id="mapwrap">
+    <div id="map"></div>
+    <button id="mapfs" type="button" aria-label="Expandir mapa">⤢ Tela cheia</button>
+  </div>
 </main>
 
 <section class="extra">
@@ -335,8 +405,10 @@
     const rb = d.stops.filter(s=>s.route==='B').map(s=>[s.lat,s.lng]);
     if(rb.length>1) L.polyline(rb,{color:d.color,weight:2.5,opacity:.35,dashArray:'2 7'}).addTo(layer);
 
-    if(pts.length) map.fitBounds(L.latLngBounds(pts.concat([[BASE.lat,BASE.lng]])).pad(0.25),{animate:true});
+    lastBounds = pts.length ? L.latLngBounds(pts.concat([[BASE.lat,BASE.lng]])).pad(0.25) : null;
+    if(lastBounds) map.fitBounds(lastBounds,{animate:true});
   }
+  let lastBounds = null;
 
   function focus(id){
     const m = markers[id]; if(!m) return;
@@ -371,20 +443,45 @@
      <div class="links"><a href="https://www.google.com/maps/dir/?api=1&origin=${BASE.lat},${BASE.lng}&destination=${DECISION.lat},${DECISION.lng}" target="_blank" rel="noopener">Ver a distância real no mapa</a></div>`;
 
   document.querySelector('#bookings tbody').innerHTML = BOOKINGS.map(b=>
-    `<tr class="${b.urgent?'urgent':''}"><td>${esc(b.what)}</td><td>${esc(b.when)}</td><td style="color:var(--muted)">${esc(b.why)}</td></tr>`
+    `<tr class="${b.urgent?'urgent':''}"><td data-l="reserva">${esc(b.what)}</td><td data-l="quando">${esc(b.when)}</td><td data-l="por quê" style="color:var(--muted)">${esc(b.why)}</td></tr>`
   ).join('');
 
   document.getElementById('notes').innerHTML = GROUP_NOTES.map(g=>
     `<div class="card gn"><h4><em>${esc(g.icon)}</em>${esc(g.title)}</h4><ul>${g.items.map(i=>`<li>${esc(i)}</li>`).join('')}</ul></div>`
   ).join('');
 
-  /* sticky offset da nav */
-  const hh = document.querySelector('header').offsetHeight;
-  document.documentElement.style.setProperty('--navtop', hh+'px');
+  /* ---------- mapa em tela cheia no mobile ---------- */
+  const wrap = document.getElementById('mapwrap');
+  const fsBtn = document.getElementById('mapfs');
+  fsBtn.onclick = ()=>{
+    const on = wrap.classList.toggle('fs');
+    document.body.classList.toggle('mapfs', on);
+    fsBtn.textContent = on ? '✕ Fechar' : '⤢ Tela cheia';
+    setTimeout(()=>{
+      map.invalidateSize();
+      if(on) map.scrollWheelZoom.enable();
+      if(lastBounds) map.fitBounds(lastBounds,{animate:false});  // reenquadra na nova altura
+    },60);
+  };
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape' && wrap.classList.contains('fs')) fsBtn.click(); });
+
+  /* sticky offset da nav — só vale no layout de 2 colunas, onde o header fica fixo */
+  function syncNav(){
+    const desktop = window.matchMedia('(min-width:941px)').matches;
+    const hh = desktop ? document.querySelector('header').offsetHeight : 0;
+    document.documentElement.style.setProperty('--navtop', hh+'px');
+  }
 
   select(DAYS[0].id);
+  syncNav();
   setTimeout(()=>map.invalidateSize(),200);
-  window.addEventListener('resize',()=>map.invalidateSize());
+
+  let rt;
+  window.addEventListener('resize',()=>{
+    clearTimeout(rt);
+    rt = setTimeout(()=>{ syncNav(); map.invalidateSize(); },120);
+  });
+  window.addEventListener('orientationchange',()=>setTimeout(()=>{ syncNav(); map.invalidateSize(); },300));
 })();
 </script>
 </body>

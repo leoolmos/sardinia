@@ -6,7 +6,7 @@ const DAYS = [
   {
     id: "d0",
     date: "15/08",
-    weekday: "Sexta",
+    weekday: "Sábado",
     title: "Chegada · Cagliari → Orosei",
     color: "#e2725b",
     badge: "Ferragosto",
@@ -15,7 +15,7 @@ const DAYS = [
     alerts: [
       {
         level: "warn",
-        text: "15/08 é Ferragosto, feriado nacional. Museus, lojas e muitos restaurantes fecham ou abrem só meio período. Praias e estradas lotadas. Reserve almoço e jantar com antecedência.",
+        text: "15/08 é Ferragosto, o maior feriado do verão italiano — e em 2026 cai num sábado, o que emenda com domingo e transforma a chegada no pico absoluto do ano. Museus, lojas e muitos restaurantes fecham ou abrem só meio período. Estradas e praias no máximo de lotação. Reserve almoço e jantar com antecedência e conte com trânsito na saída de Cagliari.",
       },
       {
         level: "info",
@@ -104,12 +104,16 @@ const DAYS = [
   {
     id: "d1",
     date: "16/08",
-    weekday: "Sábado",
+    weekday: "Domingo",
     title: "Aclimatação · Orosei e praias locais",
     color: "#3fa796",
     summary:
       "Dia leve de propósito. Todo mundo chegou ontem, a semana tem 1 dia de barco e 2 de estrada. Praias a 10–20 min do hotel.",
     alerts: [
+      {
+        level: "warn",
+        text: "É domingo, e o domingo logo depois do Ferragosto ainda tem praia cheia de italiano em férias. Chegue em Cala Liberotto até 09:30 ou o estacionamento vira problema com 2 carros.",
+      },
       {
         level: "info",
         text: "Bidderosa tem cota diária de carros (~130) e cobra entrada. Reserva online abre com antecedência e esgota em agosto. Se não conseguir, Cala Liberotto e Sos Alinos são vizinhas e livres.",
@@ -160,7 +164,7 @@ const DAYS = [
   {
     id: "d2",
     date: "17/08",
-    weekday: "Domingo",
+    weekday: "Segunda",
     title: "Dia de barco · Golfo di Orosei",
     color: "#2b7fd4",
     badge: "Reservar já",
@@ -253,7 +257,7 @@ const DAYS = [
   {
     id: "d3",
     date: "18/08",
-    weekday: "Segunda",
+    weekday: "Terça",
     title: "Blue Zone · Baunei, Golgo e Ogliastra",
     color: "#7a5cbf",
     badge: "Rota B",
@@ -361,7 +365,7 @@ const DAYS = [
   {
     id: "d4",
     date: "19/08",
-    weekday: "Terça",
+    weekday: "Quarta",
     title: "Cala Brandinchi + Lu Impostu",
     color: "#e0a419",
     badge: "Reserva obrigatória",
@@ -421,7 +425,7 @@ const DAYS = [
   {
     id: "d5",
     date: "20/08",
-    weekday: "Quarta",
+    weekday: "Quinta",
     title: "Hotel, folga e saída",
     color: "#5f8b4c",
     summary:
