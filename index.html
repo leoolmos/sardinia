@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0e1b2a">
+<title>Sardenha 15–20/08 · Roteiro</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+  :root{
+    --bg:#f4f1ea; --panel:#fffdf8; --ink:#1c2733; --muted:#6b7683;
+    --line:#e2dcd0; --accent:#2b7fd4; --warn:#b4531b; --warn-bg:#fdf0e4;
+    --info:#2b6fa8; --info-bg:#e9f2fa; --ok:#3d7a4e; --shadow:0 1px 3px rgba(28,39,51,.08),0 6px 20px rgba(28,39,51,.06);
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --bg:#0e1b2a; --panel:#152435; --ink:#e8edf3; --muted:#93a2b3;
+      --line:#243549; --accent:#5aa9f0; --warn:#f0a878; --warn-bg:#33241a;
+      --info:#8ec5f0; --info-bg:#152c40; --ok:#7cc48f; --shadow:0 1px 3px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25);
+    }
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--ink);
+    font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  header{
+    padding:20px 18px 14px; border-bottom:1px solid var(--line); background:var(--panel);
+    position:sticky; top:0; z-index:900; box-shadow:var(--shadow);
+  }
+  h1{margin:0 0 4px; font-size:21px; letter-spacing:-.02em}
+  .sub{color:var(--muted); font-size:13px; margin:0}
+  .party{display:flex; gap:6px; flex-wrap:wrap; margin-top:10px}
+  .chip{
+    font-size:12px; padding:3px 9px; border-radius:99px;
+    background:var(--bg); border:1px solid var(--line); color:var(--muted); white-space:nowrap;
+  }
+
+  nav{
+    display:flex; gap:6px; overflow-x:auto; padding:10px 14px;
+    background:var(--panel); border-bottom:1px solid var(--line);
+    position:sticky; top:var(--navtop,0); z-index:890; -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  nav::-webkit-scrollbar{display:none}
+  nav button{
+    flex:0 0 auto; border:1px solid var(--line); background:var(--bg); color:var(--ink);
+    border-radius:10px; padding:7px 12px; font:inherit; font-size:13px; cursor:pointer;
+    display:flex; flex-direction:column; align-items:flex-start; gap:1px; line-height:1.25;
+    transition:border-color .15s, background .15s;
+  }
+  nav button b{font-size:13px; font-weight:600}
+  nav button span{font-size:11px; color:var(--muted)}
+  nav button[aria-selected="true"]{border-color:var(--dc,var(--accent)); background:var(--panel); box-shadow:inset 0 0 0 1px var(--dc,var(--accent))}
+  nav button[aria-selected="true"] span{color:var(--dc,var(--accent))}
+
+  main{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.05fr); gap:0; align-items:start}
+  @media (max-width:940px){ main{grid-template-columns:1fr} }
+
+  #panel{padding:16px 16px 60px; min-width:0}
+  #mapwrap{position:sticky; top:0; height:100vh; border-left:1px solid var(--line)}
+  @media (max-width:940px){
+    #mapwrap{position:relative; height:58vh; min-height:340px; border-left:0; border-bottom:1px solid var(--line); order:-1}
+    main{display:flex; flex-direction:column}
+  }
+  #map{width:100%; height:100%; background:var(--bg)}
+
+  .daytitle{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin:2px 0 6px}
+  .daytitle h2{margin:0; font-size:19px; letter-spacing:-.02em}
+  .daytitle .dot{width:9px;height:9px;border-radius:99px;flex:0 0 auto}
+  .badge{font-size:11px; font-weight:600; padding:2px 8px; border-radius:6px; background:var(--warn-bg); color:var(--warn); text-transform:uppercase; letter-spacing:.04em}
+  .summary{color:var(--muted); margin:0 0 14px; font-size:14px}
+
+  .alert{border-radius:10px; padding:10px 12px; margin:0 0 8px; font-size:13.5px; border:1px solid transparent; display:flex; gap:9px; align-items:flex-start}
+  .alert.warn{background:var(--warn-bg); border-color:color-mix(in srgb,var(--warn) 30%,transparent); color:var(--warn)}
+  .alert.info{background:var(--info-bg); border-color:color-mix(in srgb,var(--info) 25%,transparent); color:var(--info)}
+  .alert i{font-style:normal; flex:0 0 auto; font-weight:700}
+
+  .drive{display:flex; flex-wrap:wrap; gap:8px; margin:12px 0}
+  .drive div{font-size:12.5px; background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:6px 10px; color:var(--muted)}
+  .drive b{color:var(--ink); font-weight:600}
+
+  .stop{
+    background:var(--panel); border:1px solid var(--line); border-radius:12px;
+    padding:13px 14px; margin:0 0 9px; cursor:pointer; box-shadow:var(--shadow);
+    transition:border-color .15s, transform .1s;
+  }
+  .stop:hover{border-color:var(--dc,var(--accent))}
+  .stop.active{border-color:var(--dc,var(--accent)); box-shadow:inset 0 0 0 1px var(--dc,var(--accent)),var(--shadow)}
+  .stop.optional{border-style:dashed}
+  .shead{display:flex; align-items:flex-start; gap:10px}
+  .num{
+    flex:0 0 auto; width:23px; height:23px; border-radius:7px; display:grid; place-items:center;
+    font-size:11.5px; font-weight:700; color:#fff; background:var(--dc,var(--accent)); margin-top:1px;
+  }
+  .stop h3{margin:0; font-size:15.5px; font-weight:600; letter-spacing:-.01em; flex:1; min-width:0}
+  .when{font-size:12px; color:var(--muted); white-space:nowrap; margin-top:2px}
+  .sbody{padding-left:33px}
+  .sbody p{margin:6px 0 0; font-size:13.5px; color:var(--muted)}
+  .note{margin-top:8px; font-size:13px; display:flex; gap:7px; align-items:flex-start}
+  .note b{flex:0 0 auto; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; padding:1px 6px; border-radius:5px; background:var(--bg); border:1px solid var(--line); color:var(--muted); margin-top:1px}
+  .note.sr b{color:var(--warn); border-color:color-mix(in srgb,var(--warn) 35%,transparent)}
+  .note.kd b{color:var(--ok); border-color:color-mix(in srgb,var(--ok) 35%,transparent)}
+  .note.cs b{color:var(--info); border-color:color-mix(in srgb,var(--info) 35%,transparent)}
+  .note span{color:var(--muted)}
+  .links{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap}
+  .links a{font-size:12.5px; text-decoration:none; color:var(--accent); border:1px solid var(--line); padding:4px 9px; border-radius:7px}
+  .links a:hover{border-color:var(--accent)}
+  .rtag{font-size:10.5px; font-weight:700; letter-spacing:.06em; padding:1px 6px; border-radius:5px; background:var(--info-bg); color:var(--info); align-self:center}
+
+  .pack{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:13px 14px; margin-top:14px}
+  .pack h4{margin:0 0 8px; font-size:13px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted)}
+  .pack ul{margin:0; padding-left:18px; font-size:13.5px; color:var(--muted)}
+  .pack li{margin:3px 0}
+
+  section.extra{padding:0 16px 40px; max-width:1400px}
+  section.extra h2{font-size:18px; letter-spacing:-.02em; margin:26px 0 10px; padding-top:20px; border-top:1px solid var(--line)}
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:14px 16px; box-shadow:var(--shadow)}
+  .grid3{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:10px}
+  .opt{border-left:3px solid var(--line); padding:2px 0 2px 12px; margin:12px 0}
+  .opt.melhor{border-left-color:var(--ok)}
+  .opt.possível{border-left-color:var(--info)}
+  .opt.não{border-left-color:var(--warn)}
+  .opt h4{margin:0 0 4px; font-size:14.5px}
+  .opt p{margin:0; font-size:13.5px; color:var(--muted)}
+  table{width:100%; border-collapse:collapse; font-size:13.5px}
+  th,td{text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); vertical-align:top}
+  th{font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); font-weight:600}
+  tr.urgent td:nth-child(2){color:var(--warn); font-weight:600}
+  .gn h4{margin:0 0 8px; font-size:14.5px; display:flex; align-items:center; gap:8px}
+  .gn h4 em{font-style:normal; font-size:11px; font-weight:700; background:var(--bg); border:1px solid var(--line); color:var(--muted); border-radius:6px; padding:2px 7px}
+  .gn ul{margin:0; padding-left:17px; color:var(--muted); font-size:13.5px}
+  .gn li{margin:5px 0}
+  footer{padding:24px 16px 40px; color:var(--muted); font-size:12px; border-top:1px solid var(--line)}
+  .leaflet-popup-content{margin:10px 12px; font:13px/1.45 inherit}
+  .leaflet-popup-content b{display:block; margin-bottom:3px; font-size:13.5px}
+  .leaflet-container{font-family:inherit}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Sardenha · 15–20 de agosto</h1>
+  <p class="sub">Cagliari → Orosei · base no Hotel Marina Garden · de carro</p>
+  <div class="party">
+    <span class="chip">4 adultos</span>
+    <span class="chip">2 crianças · 7 e 8 anos</span>
+    <span class="chip">2 idosos · 76 anos</span>
+    <span class="chip">8 pessoas no total</span>
+  </div>
+</header>
+
+<nav id="tabs" role="tablist"></nav>
+
+<main>
+  <div id="panel"></div>
+  <div id="mapwrap"><div id="map"></div></div>
+</main>
+
+<section class="extra">
+  <h2 id="pelosa-h">La Pelosa — decisão pendente</h2>
+  <div class="card" id="pelosa"></div>
+
+  <h2>Reservas — o que trava se não for feito</h2>
+  <div class="card"><table id="bookings"><thead><tr><th>O quê</th><th>Quando</th><th>Por quê</th></tr></thead><tbody></tbody></table></div>
+
+  <h2>Notas por perfil do grupo</h2>
+  <div class="grid3" id="notes"></div>
+</section>
+
+<footer>
+  Roteiro montado para 8 pessoas com dois idosos de 76 anos e duas crianças. Horários de barco, cotas de praia e taxas mudam por temporada — confirme cada item marcado como reserva antes de viajar.
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="data.js"></script>
+<script>
+(function(){
+  const KIND = {
+    praia:"⛱", barco:"⛵", porto:"⚓", gruta:"🕳", cidade:"🏛", cultura:"🎨",
+    comida:"🍽", natureza:"🌿", vila:"🏘", base:"🏨"
+  };
+
+  /* ---------- mapa ---------- */
+  const map = L.map('map',{zoomControl:true, scrollWheelZoom:false}).setView([40.35,9.55],8);
+  map.on('click',()=>map.scrollWheelZoom.enable());
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{
+    attribution:'&copy; OpenStreetMap &copy; CARTO', maxZoom:19
+  }).addTo(map);
+
+  let layer = L.layerGroup().addTo(map);
+  const markers = {};
+
+  function pin(color, label){
+    return L.divIcon({
+      className:'',
+      html:`<div style="width:26px;height:26px;border-radius:50% 50% 50% 4px;transform:rotate(-45deg);
+            background:${color};border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);
+            display:grid;place-items:center">
+            <span style="transform:rotate(45deg);color:#fff;font:700 11px/1 sans-serif">${label}</span></div>`,
+      iconSize:[26,26], iconAnchor:[13,24], popupAnchor:[0,-24]
+    });
+  }
+
+  /* ---------- render ---------- */
+  const tabs = document.getElementById('tabs');
+  const panel = document.getElementById('panel');
+  let current = DAYS[0].id;
+
+  DAYS.forEach(d=>{
+    const b=document.createElement('button');
+    b.setAttribute('role','tab');
+    b.style.setProperty('--dc', d.color);
+    b.innerHTML = `<b>${d.date}</b><span>${d.weekday}</span>`;
+    b.onclick = ()=>select(d.id);
+    b.dataset.id = d.id;
+    tabs.appendChild(b);
+  });
+
+  function esc(s){return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
+  function gmap(s){return `https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lng}`}
+  function gdir(s){return `https://www.google.com/maps/dir/?api=1&origin=${BASE.lat},${BASE.lng}&destination=${s.lat},${s.lng}`}
+
+  function select(id){
+    current = id;
+    const d = DAYS.find(x=>x.id===id);
+    [...tabs.children].forEach(b=>b.setAttribute('aria-selected', b.dataset.id===id));
+    panel.style.setProperty('--dc', d.color);
+
+    let h = `<div class="daytitle">
+        <span class="dot" style="background:${d.color}"></span>
+        <h2>${esc(d.title)}</h2>
+        ${d.badge?`<span class="badge">${esc(d.badge)}</span>`:''}
+      </div>
+      <p class="summary">${esc(d.summary)}</p>`;
+
+    (d.alerts||[]).forEach(a=>{
+      h += `<div class="alert ${a.level}"><i>${a.level==='warn'?'!':'i'}</i><div>${esc(a.text)}</div></div>`;
+    });
+
+    if((d.drive||[]).length){
+      h += `<div class="drive">` + d.drive.map(r=>
+        `<div><b>${esc(r.from)} → ${esc(r.to)}</b> · ${r.km} km · ~${r.min} min${r.note?` · ${esc(r.note)}`:''}</div>`
+      ).join('') + `</div>`;
+    }
+
+    d.stops.forEach((s,i)=>{
+      h += `<article class="stop${s.optional?' optional':''}" data-stop="${s.id}">
+        <div class="shead">
+          <span class="num">${KIND[s.kind]||i+1}</span>
+          <h3>${esc(s.name)}</h3>
+          ${s.route?`<span class="rtag">ROTA ${s.route}</span>`:''}
+          ${s.time?`<span class="when">${esc(s.time)}</span>`:''}
+        </div>
+        <div class="sbody">
+          <p>${esc(s.desc||'')}</p>
+          ${s.senior?`<div class="note sr"><b>76 anos</b><span>${esc(s.senior)}</span></div>`:''}
+          ${s.kids?`<div class="note kd"><b>crianças</b><span>${esc(s.kids)}</span></div>`:''}
+          ${s.cost?`<div class="note cs"><b>${s.book?'reservar':'custo'}</b><span>${esc(s.cost)}</span></div>`:''}
+          ${(!s.cost&&s.book)?`<div class="note cs"><b>reservar</b><span>Mesa/vaga para 8 pessoas em agosto exige reserva.</span></div>`:''}
+          <div class="links">
+            <a href="${gmap(s)}" target="_blank" rel="noopener">Ver no mapa</a>
+            <a href="${gdir(s)}" target="_blank" rel="noopener">Rota do hotel</a>
+          </div>
+        </div>
+      </article>`;
+    });
+
+    if((d.pack||[]).length){
+      h += `<div class="pack"><h4>Levar nesse dia</h4><ul>${d.pack.map(p=>`<li>${esc(p)}</li>`).join('')}</ul></div>`;
+    }
+
+    panel.innerHTML = h;
+    panel.querySelectorAll('.stop').forEach(el=>{
+      el.onclick = e=>{
+        if(e.target.tagName==='A') return;
+        focus(el.dataset.stop);
+      };
+    });
+
+    drawDay(d);
+  }
+
+  function drawDay(d){
+    layer.clearLayers();
+    for(const k in markers) delete markers[k];
+    const pts=[];
+
+    d.stops.forEach((s,i)=>{
+      const m = L.marker([s.lat,s.lng],{icon:pin(d.color, i+1)}).addTo(layer);
+      m.bindPopup(`<b>${esc(s.name)}</b>${s.time?`<span style="color:#888">${esc(s.time)}</span><br>`:''}${esc((s.desc||'').slice(0,140))}…`);
+      m.on('click',()=>{
+        const el = panel.querySelector(`[data-stop="${s.id}"]`);
+        if(el){ panel.querySelectorAll('.stop').forEach(x=>x.classList.remove('active'));
+                el.classList.add('active');
+                el.scrollIntoView({behavior:'smooth',block:'center'}); }
+      });
+      markers[s.id]=m;
+      pts.push([s.lat,s.lng]);
+    });
+
+    // base do hotel sempre visível
+    const hb = L.circleMarker([BASE.lat,BASE.lng],{radius:6,color:'#fff',weight:2,fillColor:'#1c2733',fillOpacity:1}).addTo(layer);
+    hb.bindPopup(`<b>${esc(BASE.name)}</b>Base dos 5 dias`);
+
+    const routePts = d.stops.filter(s=>!s.route || s.route==='A').map(s=>[s.lat,s.lng]);
+    if(routePts.length>1){
+      L.polyline(routePts,{color:d.color,weight:2.5,opacity:.55,dashArray:'6 6'}).addTo(layer);
+    }
+    const rb = d.stops.filter(s=>s.route==='B').map(s=>[s.lat,s.lng]);
+    if(rb.length>1) L.polyline(rb,{color:d.color,weight:2.5,opacity:.35,dashArray:'2 7'}).addTo(layer);
+
+    if(pts.length) map.fitBounds(L.latLngBounds(pts.concat([[BASE.lat,BASE.lng]])).pad(0.25),{animate:true});
+  }
+
+  function focus(id){
+    const m = markers[id]; if(!m) return;
+    panel.querySelectorAll('.stop').forEach(x=>x.classList.toggle('active', x.dataset.stop===id));
+    map.setView(m.getLatLng(), 12, {animate:true});
+    m.openPopup();
+  }
+
+  /* ---------- blocos extras ---------- */
+  document.getElementById('pelosa').innerHTML =
+    `<p style="margin:0 0 4px;font-size:14px">${esc(DECISION.problem)}</p>
+     <p style="margin:8px 0 0;font-size:13.5px;color:var(--muted)">${esc(DECISION.ticket)}</p>
+     ${DECISION.options.map(o=>`<div class="opt ${o.verdict}"><h4>${esc(o.label)}</h4><p>${esc(o.body)}</p></div>`).join('')}
+     <div class="links"><a href="https://www.google.com/maps/dir/?api=1&origin=${BASE.lat},${BASE.lng}&destination=${DECISION.lat},${DECISION.lng}" target="_blank" rel="noopener">Ver a distância real no mapa</a></div>`;
+
+  document.querySelector('#bookings tbody').innerHTML = BOOKINGS.map(b=>
+    `<tr class="${b.urgent?'urgent':''}"><td>${esc(b.what)}</td><td>${esc(b.when)}</td><td style="color:var(--muted)">${esc(b.why)}</td></tr>`
+  ).join('');
+
+  document.getElementById('notes').innerHTML = GROUP_NOTES.map(g=>
+    `<div class="card gn"><h4><em>${esc(g.icon)}</em>${esc(g.title)}</h4><ul>${g.items.map(i=>`<li>${esc(i)}</li>`).join('')}</ul></div>`
+  ).join('');
+
+  /* sticky offset da nav */
+  const hh = document.querySelector('header').offsetHeight;
+  document.documentElement.style.setProperty('--navtop', hh+'px');
+
+  select(DAYS[0].id);
+  setTimeout(()=>map.invalidateSize(),200);
+  window.addEventListener('resize',()=>map.invalidateSize());
+})();
+</script>
+</body>
+</html>
