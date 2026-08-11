@@ -519,15 +519,33 @@
     baseMarker = L.circleMarker([O.lat,O.lng],{radius:7,color:'#fff',weight:2,fillColor:'#1c2733',fillOpacity:1}).addTo(layer);
     baseMarker.bindPopup(`<b>${esc(O.name)}</b>${d.origin?'Ponto de partida do dia':'Base dos 5 dias'}`);
 
-    const routePts = d.stops.filter(s=>!s.route || s.route==='A').map(s=>[s.lat,s.lng]);
-    if(routePts.length>1){
-      L.polyline(routePts,{color:d.color,weight:2.5,opacity:.55,dashArray:'6 6'}).addTo(layer);
+    /* Rota do dia: sai da base e passa pelas paradas firmes, na ordem.
+       As opcionais ficam de fora da linha (Barumini e Su Sterru são desvios;
+       incluí-las desenharia um ziguezague que não é o trajeto real). */
+    const firm = d.stops.filter(s=>!s.optional);
+    // no 20/08 a 1ª parada é o próprio hotel: sem trecho de saída para desenhar
+    if(firm.length && !isOrigin(firm[0], d)){
+      const leg0 = (d.drive||[])[0];
+      // 1º trecho: base → primeira parada, destacado, é a dirigida que importa saber
+      const out = L.polyline([[O.lat,O.lng],[firm[0].lat,firm[0].lng]],
+        {color:d.color, weight:4, opacity:.85}).addTo(layer);
+      out.bindTooltip(
+        `${esc(O.name.split('—')[0].trim())} → ${esc(firm[0].name)}` +
+        (leg0 ? `<br><b>${leg0.km} km · ~${leg0.min} min</b>` : ''),
+        {sticky:true}
+      );
     }
-    const rb = d.stops.filter(s=>s.route==='B').map(s=>[s.lat,s.lng]);
-    if(rb.length>1) L.polyline(rb,{color:d.color,weight:2.5,opacity:.35,dashArray:'2 7'}).addTo(layer);
+    // demais trechos: tracejado, só para dar a sequência
+    if(firm.length>1){
+      L.polyline(firm.map(s=>[s.lat,s.lng]),
+        {color:d.color, weight:2.5, opacity:.5, dashArray:'6 6'}).addTo(layer);
+    }
 
+    /* animate:false de propósito — um fitBounds animado emitido enquanto o
+       anterior ainda anima é descartado pelo Leaflet, e trocar de aba rápido
+       deixava o mapa enquadrado no dia errado. */
     lastBounds = pts.length ? L.latLngBounds(pts.concat([[O.lat,O.lng]])).pad(0.25) : null;
-    if(lastBounds) map.fitBounds(lastBounds,{animate:true});
+    if(lastBounds) map.fitBounds(lastBounds,{animate:false});
   }
   let lastBounds = null;
 
