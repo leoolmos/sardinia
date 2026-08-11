@@ -11,11 +11,23 @@ const DAYS = [
     color: "#e2725b",
     badge: "Ferragosto",
     summary:
-      "Manhã em Cagliari, transfer de ~2h30 até Orosei à tarde. Dia de deslocamento — não empilhe atrações.",
+      "Flamingos no Molentargius logo cedo, Castello no fim da manhã, almoço e transfer de ~2h30 até Orosei. Dia de deslocamento — duas paradas é o teto real.",
     alerts: [
       {
         level: "warn",
         text: "15/08 é Ferragosto, o maior feriado do verão italiano — e em 2026 cai num sábado, o que emenda com domingo e transforma a chegada no pico absoluto do ano. Museus, lojas e muitos restaurantes fecham ou abrem só meio período. Estradas e praias no máximo de lotação. Reserve almoço e jantar com antecedência e conte com trânsito na saída de Cagliari.",
+      },
+      {
+        level: "warn",
+        text: "Molentargius está às 08:30 por dois motivos que não são negociáveis: é salina aberta, sem uma sombra em 1.600 ha, e os flamingos ficam bem mais ativos e visíveis no começo da manhã. Às 14h no mesmo lugar, com 76 anos, é castigo puro.",
+      },
+      {
+        level: "warn",
+        text: "Sendo Ferragosto, o centro de visitantes, o aluguel de bicicletas e as visitas guiadas do parque provavelmente não funcionam. As trilhas e os tanques continuam acessíveis a pé e os flamingos não tiram folga — mas não conte com serviço nenhum. Confirme por telefone na véspera.",
+      },
+      {
+        level: "info",
+        text: "Se o voo chegar depois das 10h, corte o Castello e mantenha o Molentargius. Flamingo às 11h ainda se vê; o Bastione continua lá numa próxima viagem.",
       },
       {
         level: "info",
@@ -24,11 +36,23 @@ const DAYS = [
     ],
     stops: [
       {
+        id: "molentargius",
+        name: "Parco Naturale Molentargius-Saline",
+        lat: 39.2276,
+        lng: 9.1481,
+        time: "08:30–10:00",
+        kind: "natureza",
+        desc: "Zona úmida de 1.600 ha entre Cagliari e Quartu, encostada na praia do Poetto. Milhares de flamingos rosa selvagens vivem e nidificam aqui — é uma das pouquíssimas colônias urbanas de nidificação da Europa. Antigas salinas, com os tanques Bellarosa Maggiore e Bellarosa Minore. Entrada principal pela Via La Palma.",
+        senior: "Trilhas planas e pavimentadas, sem degrau nenhum — no papel é a parada mais fácil do dia. O problema não é o piso, é a ausência total de sombra: é salina aberta. Por isso está às 08:30 e não à tarde. Chapéu e água desde o primeiro minuto.",
+        kids: "Milhares de flamingos rosa a olho nu. Melhor coisa do dia para 7 e 8 anos, disparado. Vale muito levar um binóculo se tiver.",
+        cost: "Entrada do parque gratuita. Aluguel de bicicleta e visita guiada à parte.",
+      },
+      {
         id: "cagliari-castello",
         name: "Castello + Bastione Saint Remy",
         lat: 39.2178,
         lng: 9.1145,
-        time: "09:00–11:00",
+        time: "10:30–12:00",
         kind: "cidade",
         desc: "Bairro histórico no alto. Vista da muralha, catedral, ruelas. Terraço do Bastione é a foto da cidade.",
         senior: "Subida íngreme a pé. Use o elevador público do Bastione (Piazza Costituzione) ou os ascensori de Via Santa Croce. De carro dá pra chegar quase no topo pela Viale Buon Cammino.",
@@ -52,7 +76,7 @@ const DAYS = [
         name: "Almoço em Cagliari (Marina/Villanova)",
         lat: 39.2141,
         lng: 9.1156,
-        time: "12:00–13:30",
+        time: "12:30–14:00",
         kind: "comida",
         desc: "Bairro Marina tem a maior densidade de trattorias. Peça fregola con arselle, culurgiones, malloreddus.",
         senior: "Escolha lugar com mesa interna com ar-condicionado — meio-dia de agosto em Cagliari passa de 35 °C.",
@@ -65,11 +89,11 @@ const DAYS = [
         name: "Su Nuraxi de Barumini (parada opcional)",
         lat: 39.7053,
         lng: 8.9906,
-        time: "15:00–16:30",
+        time: "descartar",
         kind: "cultura",
-        desc: "Nuraghe UNESCO, o mais importante da ilha. Visita guiada obrigatória, ~1h. Fica ~50 min fora da rota direta.",
-        senior: "Terreno irregular, sol aberto, pouca sombra. Às 15h de agosto é castigo. Se for, vá no último horário.",
-        kids: "Melhor coisa 'cultural' da viagem pra idade deles — castelo de pedra de verdade.",
+        desc: "Nuraghe UNESCO, o mais importante da ilha. Visita guiada obrigatória, ~1h, e fica ~50 min fora da rota direta.",
+        senior: "Com Molentargius entrando no dia, isto deixou de caber. Seriam 3 paradas mais 50 min de desvio mais 2h30 de estrada, tudo no dia da chegada, no auge do calor e em terreno irregular sem sombra. Fica registrado como a parada a cortar — e a primeira a recuperar se alguém quiser trocar pelo Castello.",
+        kids: "Castelo de pedra de verdade. Se um dia sobrar um dia livre, vale.",
         cost: "€15 adulto",
         optional: true,
       },
@@ -97,8 +121,11 @@ const DAYS = [
       },
     ],
     drive: [
-      { from: "Cagliari", to: "Orosei", km: 195, min: 150, note: "SS131 DCN. Via Barumini/Nuoro fica ~40 min mais longo." },
+      { from: "Aeroporto de Elmas", to: "Molentargius", km: 14, min: 20 },
+      { from: "Molentargius", to: "Castello", km: 6, min: 15 },
+      { from: "Cagliari", to: "Orosei", km: 195, min: 150, note: "SS131 DCN. Saia até 14:30 para chegar com luz." },
     ],
+    pack: ["Chapéu e protetor solar — Molentargius não tem sombra nenhuma", "Água por pessoa desde a saída do aeroporto", "Binóculo, se tiver: muda completamente o parque para as crianças", "Calçado fechado e confortável"],
   },
 
   {
