@@ -1,6 +1,8 @@
 # Sardenha · 15–20 de agosto
 
-Roteiro dia a dia com mapa, montado para 8 pessoas: 4 adultos, 2 crianças (7 e 8 anos) e 2 idosos (76 anos). Base no Hotel Marina Garden, em Marina di Orosei. Deslocamentos de carro.
+**No ar: https://leoolmos.github.io/sardinia/**
+
+Roteiro dia a dia com mapa, montado para 8 pessoas: 4 adultos, 2 crianças (7 e 8 anos) e 2 idosos (76 anos). Base no Hotel Marina Garden, em Marina di Orosei. Dois carros.
 
 ## Rodar
 
@@ -21,7 +23,9 @@ npx --yes serve -l 4321 .
 
 ## Editar pelo celular
 
-Abra `data.js` direto no GitHub e use o lápis de edição. A estrutura:
+Abra `data.js` direto no GitHub e use o lápis de edição. Ao commitar em `main`, o GitHub Pages reconstrói sozinho e https://leoolmos.github.io/sardinia/ atualiza em ~1 min.
+
+A estrutura:
 
 ### Adicionar uma parada a um dia
 
@@ -57,7 +61,7 @@ alerts: [
 
 Copie um objeto de dia completo dentro de `DAYS` e troque `id`, `date`, `weekday`, `title` e `color`.
 
-Outros blocos editáveis no mesmo arquivo: `BASE` (hotel), `DECISION` (o card de La Pelosa), `BOOKINGS` (tabela de reservas) e `GROUP_NOTES` (notas por perfil).
+Outros blocos editáveis no mesmo arquivo: `BASE` (hotel), `BOATS` (comparação dos tipos de barco), `DECISION` (o card de La Pelosa), `BOOKINGS` (tabela de reservas) e `GROUP_NOTES` (notas por perfil).
 
 Vírgula faltando ou aspas não fechadas quebram a página inteira — se depois de editar a tela ficar em branco, o erro está aí.
 

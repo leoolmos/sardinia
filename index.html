@@ -62,8 +62,9 @@
   #panel{padding:16px 16px 60px; min-width:0}
   #mapwrap{position:sticky; top:0; height:100vh; border-left:1px solid var(--line)}
   @media (max-width:940px){
-    #mapwrap{position:relative; height:58vh; min-height:340px; border-left:0; border-bottom:1px solid var(--line); order:-1}
-    main{display:flex; flex-direction:column}
+    #mapwrap{position:relative; height:58vh; min-height:340px; border-left:0; border-bottom:1px solid var(--line); order:-1; width:100%}
+    /* align-items:start do grid colapsaria a largura do mapa no eixo cruzado do flex */
+    main{display:flex; flex-direction:column; align-items:stretch}
   }
   #map{width:100%; height:100%; background:var(--bg)}
 
@@ -131,6 +132,25 @@
   tr.urgent td:nth-child(2){color:var(--warn); font-weight:600}
   .gn h4{margin:0 0 8px; font-size:14.5px; display:flex; align-items:center; gap:8px}
   .gn h4 em{font-style:normal; font-size:11px; font-weight:700; background:var(--bg); border:1px solid var(--line); color:var(--muted); border-radius:6px; padding:2px 7px}
+
+  .done{font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; vertical-align:middle; padding:2px 8px; border-radius:6px; background:color-mix(in srgb,var(--ok) 15%,transparent); color:var(--ok); margin-left:6px}
+  .boatgrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:10px; margin-top:10px}
+  .boat{border-top:3px solid var(--line)}
+  .boat.melhor{border-top-color:var(--ok)}
+  .boat.possível{border-top-color:var(--info)}
+  .boat.não{border-top-color:var(--warn)}
+  .boat h4{margin:0; font-size:15.5px; letter-spacing:-.01em}
+  .boat .meta{font-size:12.5px; color:var(--muted); margin:3px 0 10px}
+  .boat .meta b{color:var(--ink)}
+  .boat ul{margin:0 0 8px; padding-left:16px; font-size:13px}
+  .boat li{margin:4px 0; color:var(--muted)}
+  .boat li.y::marker{content:"+  "; color:var(--ok); font-weight:700}
+  .boat li.n::marker{content:"−  "; color:var(--warn); font-weight:700}
+  .boat .vnote{font-size:12.5px; border-top:1px solid var(--line); padding-top:8px; margin-top:8px; color:var(--ink)}
+  .ask{margin-top:12px}
+  .ask li{margin:6px 0; font-size:13.5px; color:var(--muted)}
+  .ask li q{color:var(--ink); font-weight:600; font-style:italic}
+  .intro{font-size:14px; margin:0}
   .gn ul{margin:0; padding-left:17px; color:var(--muted); font-size:13.5px}
   .gn li{margin:5px 0}
   footer{padding:24px 16px 40px; color:var(--muted); font-size:12px; border-top:1px solid var(--line)}
@@ -160,7 +180,10 @@
 </main>
 
 <section class="extra">
-  <h2 id="pelosa-h">La Pelosa — decisão pendente</h2>
+  <h2 id="boats-h">Que barco pegar — 17/08</h2>
+  <div id="boats"></div>
+
+  <h2 id="pelosa-h">La Pelosa <span class="done">resolvido</span></h2>
   <div class="card" id="pelosa"></div>
 
   <h2>Reservas — o que trava se não for feito</h2>
@@ -323,6 +346,24 @@
   }
 
   /* ---------- blocos extras ---------- */
+  document.getElementById('boats').innerHTML =
+    `<div class="card"><p class="intro">${esc(BOATS.intro)}</p></div>
+     <div class="boatgrid">${BOATS.options.map(o=>`
+       <div class="card boat ${o.verdict}">
+         <h4>${esc(o.name)}</h4>
+         <p class="meta"><b>${esc(o.cap)}</b> · ${esc(o.price)}</p>
+         <ul>${o.pros.map(p=>`<li class="y">${esc(p)}</li>`).join('')}${o.cons.map(c=>`<li class="n">${esc(c)}</li>`).join('')}</ul>
+         <div class="vnote">${esc(o.note)}</div>
+       </div>`).join('')}</div>
+     <div class="card" style="margin-top:10px">
+       <h4 style="margin:0 0 2px;font-size:14.5px">O que perguntar ao operador, em italiano</h4>
+       <ul class="ask">${BOATS.ask.map(a=>{
+         const i=a.indexOf('»');
+         return `<li><q>${esc(a.slice(1,i))}</q>${esc(a.slice(i+1))}</li>`;
+       }).join('')}</ul>
+       <div class="vnote">${esc(BOATS.fallback)}</div>
+     </div>`;
+
   document.getElementById('pelosa').innerHTML =
     `<p style="margin:0 0 4px;font-size:14px">${esc(DECISION.problem)}</p>
      <p style="margin:8px 0 0;font-size:13.5px;color:var(--muted)">${esc(DECISION.ticket)}</p>
