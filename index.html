@@ -221,6 +221,61 @@
   .gn ul{margin:0; padding-left:17px; color:var(--muted); font-size:13.5px}
   .gn li{margin:5px 0}
   footer{padding:24px 16px 40px; color:var(--muted); font-size:12px; border-top:1px solid var(--line)}
+  /* ---------- tira de miniaturas no card ---------- */
+  .thumbs{display:flex; gap:5px; margin:10px 0 0; padding-left:33px}
+  .thumbs img{
+    width:74px; height:52px; object-fit:cover; border-radius:7px; flex:0 0 auto;
+    border:1px solid var(--line); background:var(--bg);
+  }
+  .thumbs .more{
+    width:74px; height:52px; border-radius:7px; border:1px dashed var(--line);
+    display:grid; place-items:center; font-size:12px; font-weight:600; color:var(--muted); flex:0 0 auto;
+  }
+  @media (max-width:560px){ .thumbs{padding-left:0} }
+
+  /* ---------- modal ---------- */
+  #ov{
+    position:fixed; inset:0; z-index:3000; background:rgba(10,16,24,.62);
+    display:none; overflow-y:auto; -webkit-overflow-scrolling:touch;
+    backdrop-filter:blur(3px);
+  }
+  #ov.open{display:block}
+  body.locked{overflow:hidden}
+  #sheet{
+    background:var(--panel); color:var(--ink); max-width:760px; margin:5vh auto;
+    border-radius:16px; border:1px solid var(--line); overflow:hidden;
+    box-shadow:0 20px 60px rgba(0,0,0,.35);
+  }
+  @media (max-width:760px){ #sheet{margin:0; border-radius:0; border:0; min-height:100dvh} }
+  #close{
+    position:sticky; top:0; margin-left:auto; display:block; z-index:5;
+    border:0; background:transparent; color:#fff; font:600 22px/1 sans-serif;
+    width:46px; height:46px; cursor:pointer; text-shadow:0 1px 6px rgba(0,0,0,.6);
+  }
+  .gal{display:flex; overflow-x:auto; scroll-snap-type:x mandatory; gap:0; margin-top:-46px; scrollbar-width:none; background:#0b1119}
+  .gal::-webkit-scrollbar{display:none}
+  .gal figure{flex:0 0 100%; scroll-snap-align:center; margin:0; position:relative}
+  .gal img{width:100%; height:min(46vh,320px); object-fit:cover; display:block}
+  .gal figcaption{
+    position:absolute; left:0; right:0; bottom:0; padding:26px 14px 8px; color:#fff; font-size:12.5px;
+    background:linear-gradient(transparent,rgba(0,0,0,.78));
+  }
+  .dots{display:flex; gap:5px; justify-content:center; padding:8px 0 0}
+  .dots i{width:6px; height:6px; border-radius:99px; background:var(--line); display:block}
+  .dots i.on{background:var(--accent)}
+  .mbody{padding:14px 18px 26px}
+  .mbody h3{margin:0 0 2px; font-size:20px; letter-spacing:-.02em}
+  .mmeta{color:var(--muted); font-size:13px; margin:0 0 12px}
+  .mbody p.txt{margin:0 0 10px; font-size:14.5px; line-height:1.6}
+  .mbody p.txt.why{color:var(--muted)}
+  .facts{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr)); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:10px; overflow:hidden; margin:14px 0}
+  .facts div{background:var(--panel); padding:8px 11px}
+  .facts dt{font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); font-weight:600}
+  .facts dd{margin:1px 0 0; font-size:13.5px; font-weight:600}
+  .credits{margin-top:16px; padding-top:10px; border-top:1px solid var(--line); font-size:11.5px; color:var(--muted)}
+  .credits a{color:var(--muted)}
+  .nodata{font-size:13.5px; color:var(--muted); margin:0}
+
   .leaflet-popup-content{margin:10px 12px; font:13px/1.45 inherit}
   .leaflet-popup-content b{display:block; margin-bottom:3px; font-size:13.5px}
   .leaflet-container{font-family:inherit}
@@ -267,8 +322,17 @@
   Roteiro montado para 8 pessoas com dois idosos de 76 anos e duas crianças. Horários de barco, cotas de praia e taxas mudam por temporada — confirme cada item marcado como reserva antes de viajar.
 </footer>
 
+<div id="ov" role="dialog" aria-modal="true" aria-label="Detalhes da parada">
+  <div id="sheet">
+    <button id="close" type="button" aria-label="Fechar">✕</button>
+    <div id="sheetbody"></div>
+  </div>
+</div>
+
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="data.js"></script>
+<script src="info.js"></script>
+<script src="photos.js"></script>
 <script>
 (function(){
   const KIND = {
@@ -360,10 +424,12 @@
           ${s.cost?`<div class="note cs"><b>${s.book?'reservar':'custo'}</b><span>${esc(s.cost)}</span></div>`:''}
           ${(!s.cost&&s.book)?`<div class="note cs"><b>reservar</b><span>Mesa/vaga para 8 pessoas em agosto exige reserva.</span></div>`:''}
           <div class="links">
+            ${hasDetail(s.id)?`<a href="#" data-more="${s.id}">Detalhes${pics(s.id).length?' e fotos':''}</a>`:''}
             <a href="${gmap(s)}" target="_blank" rel="noopener">Ver no mapa</a>
             ${isOrigin(s,d)?'':`<a href="${gdir(s,d)}" target="_blank" rel="noopener">Rota do hotel</a>`}
           </div>
         </div>
+        ${thumbStrip(s.id)}
       </article>`;
     });
 
@@ -374,6 +440,9 @@
     panel.innerHTML = h;
     panel.querySelectorAll('.stop').forEach(el=>{
       el.onclick = e=>{
+        const more = e.target.closest('[data-more]');
+        if(more){ e.preventDefault(); openSheet(more.dataset.more, d); return; }
+        if(e.target.closest('.thumbs')){ openSheet(el.dataset.stop, d); return; }
         if(e.target.tagName==='A') return;
         focus(el.dataset.stop);
       };
@@ -424,6 +493,81 @@
     m.openPopup();
   }
 
+  /* ---------- detalhes e fotos ---------- */
+  const INFO_  = (typeof INFO   !== 'undefined') ? INFO   : {};
+  const PHOTOS_= (typeof PHOTOS !== 'undefined') ? PHOTOS : {};
+  const pics = id => PHOTOS_[id] || [];
+  const hasDetail = id => !!INFO_[id] || pics(id).length > 0;
+
+  function thumbStrip(id){
+    const p = pics(id);
+    if(!p.length) return '';
+    const show = p.slice(0,3);
+    return `<div class="thumbs">${show.map(x=>
+      `<img src="${x.t||x.f}" alt="${esc(x.cap)}" loading="lazy" decoding="async">`).join('')}${
+      p.length>3?`<span class="more">+${p.length-3}</span>`:''}</div>`;
+  }
+
+  const ov = document.getElementById('ov');
+  const sheetBody = document.getElementById('sheetbody');
+  let lastFocused = null;
+
+  function openSheet(id, d){
+    const s = d.stops.find(x=>x.id===id);
+    if(!s) return;
+    const i = INFO_[id] || {};
+    const p = pics(id);
+    lastFocused = document.activeElement;
+
+    sheetBody.innerHTML = `
+      ${p.length?`<div class="gal">${p.map((x,k)=>`
+        <figure><img src="${x.f}" alt="${esc(x.cap)}" loading="${k?'lazy':'eager'}" fetchpriority="${k?'auto':'high'}" decoding="async">
+        <figcaption>${esc(x.cap)}</figcaption></figure>`).join('')}</div>
+        ${p.length>1?`<div class="dots">${p.map((_,k)=>`<i class="${k?'':'on'}"></i>`).join('')}</div>`:''}`:''}
+      <div class="mbody">
+        <h3>${esc(s.name)}</h3>
+        <p class="mmeta">${[s.time,d.date+' · '+d.weekday].filter(Boolean).map(esc).join(' · ')}</p>
+        ${i.what?`<p class="txt">${esc(i.what)}</p>`:''}
+        ${i.why?`<p class="txt why">${esc(i.why)}</p>`:''}
+        ${(!i.what&&!i.why)?`<p class="nodata">${esc(s.desc||'Sem descrição longa ainda — adicione uma entrada em info.js com o id "'+id+'".')}</p>`:''}
+        ${(i.facts||[]).length?`<dl class="facts">${i.facts.map(f=>
+          `<div><dt>${esc(f[0])}</dt><dd>${esc(f[1])}</dd></div>`).join('')}</dl>`:''}
+        ${s.senior?`<div class="note sr"><b>76 anos</b><span>${esc(s.senior)}</span></div>`:''}
+        ${s.kids?`<div class="note kd"><b>crianças</b><span>${esc(s.kids)}</span></div>`:''}
+        ${s.cost?`<div class="note cs"><b>${s.book?'reservar':'custo'}</b><span>${esc(s.cost)}</span></div>`:''}
+        <div class="links">
+          <a href="${gmap(s)}" target="_blank" rel="noopener">Ver no mapa</a>
+          ${isOrigin(s,d)?'':`<a href="${gdir(s,d)}" target="_blank" rel="noopener">Rota do hotel</a>`}
+        </div>
+        ${p.length?`<p class="credits">Fotos via Wikimedia Commons — ${p.map(x=>
+          `<a href="${x.page}" target="_blank" rel="noopener">${esc(x.by)} (${esc(x.lic)})</a>`).join(' · ')}</p>`:''}
+      </div>`;
+
+    // pontinhos da galeria acompanham o scroll horizontal
+    const gal = sheetBody.querySelector('.gal');
+    const dots = sheetBody.querySelectorAll('.dots i');
+    if(gal && dots.length){
+      gal.addEventListener('scroll',()=>{
+        const k = Math.round(gal.scrollLeft / gal.clientWidth);
+        dots.forEach((el,n)=>el.classList.toggle('on', n===k));
+      },{passive:true});
+    }
+
+    ov.classList.add('open');
+    document.body.classList.add('locked');
+    ov.scrollTop = 0;
+    document.getElementById('close').focus();
+  }
+
+  function closeSheet(){
+    ov.classList.remove('open');
+    document.body.classList.remove('locked');
+    sheetBody.innerHTML = '';
+    if(lastFocused && lastFocused.focus) lastFocused.focus();
+  }
+  document.getElementById('close').onclick = closeSheet;
+  ov.addEventListener('click', e=>{ if(e.target===ov) closeSheet(); });
+
   /* ---------- blocos extras ---------- */
   document.getElementById('boats').innerHTML =
     `<div class="card"><p class="intro">${esc(BOATS.intro)}</p></div>
@@ -470,7 +614,11 @@
       if(lastBounds) map.fitBounds(lastBounds,{animate:false});  // reenquadra na nova altura
     },60);
   };
-  document.addEventListener('keydown',e=>{ if(e.key==='Escape' && wrap.classList.contains('fs')) fsBtn.click(); });
+  document.addEventListener('keydown',e=>{
+    if(e.key!=='Escape') return;
+    if(ov.classList.contains('open')) return closeSheet();
+    if(wrap.classList.contains('fs')) fsBtn.click();
+  });
 
   /* sticky offset da nav — só vale no layout de 2 colunas, onde o header fica fixo */
   function syncNav(){
